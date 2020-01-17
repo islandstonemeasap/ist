@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_islandstone_stock_edi_islandstone_stock_edi,islandstone_stock_edi.islandstone_stock_edi,model_islandstone_stock_edi_islandstone_stock_edi,,1,0,0,0
