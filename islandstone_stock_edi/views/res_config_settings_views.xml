@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_islandstone" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.island.stone</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <div id="production_lot_info" position="after">
+                    <h2>FTP Settings</h2>
+                    <div class="row mt16 o_settings_container" id="stock_ftp_settings">
+                        <div class="col-12 col-lg-6 o_setting_box"
+                             title="This allows you to the ftp server for Wayfair.">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Wayfair FTP Configuration</span>
+                                <div class="text-muted">
+                                    Send inventory to Wayfair through FTP
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="ftp_host_wayfair" class="col-lg-3 o_light_label"/>
+                                        <field name="ftp_host_wayfair"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="ftp_port_wayfair" class="col-lg-3 o_light_label"/>
+                                        <field name="ftp_port_wayfair"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="ftp_protocol_wayfair" class="col-lg-3 o_light_label"/>
+                                        <field name="ftp_protocol_wayfair"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="ftp_login_wayfair" class="col-lg-3 o_light_label"/>
+                                        <field name="ftp_login_wayfair"/>
+                                    </div>
+                                    <div class="row mt16">
+                                        <label for="ftp_password_wayfair" class="col-lg-3 o_light_label"/>
+                                        <field name="ftp_password_wayfair" password="True"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

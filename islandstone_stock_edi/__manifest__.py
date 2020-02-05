@@ -54,13 +54,14 @@ Flow.
     'version': '12.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['stock', 'product'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        'security/ir.model.access.csv',
+        'views/product_report_views.xml',
+        'views/res_config_settings_views.xml',
     ],
+    'license': 'OEEL-1',
 
 }
