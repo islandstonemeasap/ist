@@ -19,3 +19,6 @@ class ResConfigSettings(models.TransientModel):
                                     config_parameter='islandstone_stock_edi.ftp_login_wayfair')
     ftp_password_wayfair = fields.Char(string='Password', required=True, default='',
                                        config_parameter='islandstone_stock_edi.ftp_password_wayfair')
+
+    email_wayfair = fields.Char(string='Email', required=True, default='',
+                                    config_parameter='islandstone_stock_edi.email_wayfair')

@@ -6,6 +6,7 @@ import math
 
 from odoo import models, fields, api, _
 from datetime import datetime, timedelta
+from odoo.tools.float_utils import float_round
 from odoo.tools.misc import xlwt
 
 
@@ -31,10 +32,13 @@ class ProductReport(models.Model):
 
         for prod in self.prod_tmpl_ids:
             for wh in self.warehouse_ids:
+                rounding = prod.uom_id.rounding
+                available = float_round(prod.qty_available - prod.outgoing_qty, precision_rounding=rounding)
+
                 data.append({
                     'supplier': wh.supplier_code,
                     'ref': prod.default_code,
-                    'available': 1,
+                    'available': available//prod.pieces_per_box,
                     'name': prod.name,
                 })
         return data
@@ -48,7 +52,6 @@ class ProductReport(models.Model):
 
         report_name = '{company}_wayfair_{date}'.format(company=self.company_id.name,
                                                         date=datetime.now().strftime("%Y_%m_%d"))
-
         filename = "%s.%s" % (report_name, "xlsx")
 
         # Create a workbook and add a worksheet.
@@ -57,12 +60,6 @@ class ProductReport(models.Model):
 
         # Some data we want to write to the worksheet.
         data = self.create_prod_report()
-        # data = [{
-        #     'supplier': 'test1',
-        #     'ref': 'test3',
-        #     'available': 'test32',
-        #     'name': 'name test',
-        # }]
 
         worksheet.write('A1', 'Supplier ID')
         worksheet.write('B1', 'Internal Reference Number')
