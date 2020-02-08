@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!--Add configuration fields to the general settings view-->
         <record id="res_config_settings_view_form_islandstone" model="ir.ui.view">
             <field name="name">res.config.settings.view.form.inherit.island.stone</field>
             <field name="model">res.config.settings</field>
@@ -59,6 +60,17 @@
                         </div>
                     </div>
                 </div>
+            </field>
+        </record>
+        <!--Add email field to the company view-->
+        <record id="res_company_form_inherit_islandstone" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.island.stone</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="email_wayfair"/>
+                </xpath>
             </field>
         </record>
     </data>

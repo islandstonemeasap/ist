@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record id="new_ticket_request_email_template" model="mail.template">
+        <record id="wayfair_email_report_template_islandstone" model="mail.template">
                 <field name="name">Product Report: Wayfair</field>
                 <field name="model_id" ref="islandstone_stock_edi.model_product_report"/>
-                <field name="subject">${object.display_name}</field>
+                <field name="subject">Wayfair Product Inventory Report</field>
                 <field name="email_from">${object.user_id.email_formatted | safe}</field>
-                <field name="email_to">${('' if object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email else object.partner_email|safe)}</field>
-                <field name="partner_to">${object.partner_id and object.sudo().partner_id.email and object.sudo().partner_id.email==object.partner_email and object.sudo().partner_id.id or False}</field>
+                <field name="email_to">${('' if object.company_id and object.sudo().company_id.email_wayfair | safe)}</field>
+                <field name="partner_to"></field>
                 <field name="lang">${object.partner_id.lang or object.user_id.lang or user.lang | safe}</field>
                 <field name="body_html" type="xml">
         <div>
-
+            <h1>test???</h1>
         </div>
                 </field>
                 <field name="auto_delete" eval="False"/>
+<!--                <field name="x_studio_attachment_test" eval="obj."/>-->
             </record>
     </data>
 </odoo>

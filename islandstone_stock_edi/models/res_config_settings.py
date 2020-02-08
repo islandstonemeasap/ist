@@ -4,6 +4,13 @@
 from odoo import api, fields, models, _
 
 
+class ResCompany(models.Model):
+    _inherit = "res.company"
+
+    email_wayfair = fields.Char(string='Wayfair Report Email', readonly=False,
+                                help='Set this email to auto send Product Inventory Report.')
+
+
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
@@ -20,5 +27,5 @@ class ResConfigSettings(models.TransientModel):
     ftp_password_wayfair = fields.Char(string='Password', required=True, default='',
                                        config_parameter='islandstone_stock_edi.ftp_password_wayfair')
 
-    email_wayfair = fields.Char(string='Email', required=True, default='',
-                                    config_parameter='islandstone_stock_edi.email_wayfair')
+    email_wayfair = fields.Char(string='Wayfair Report Email', related='company_id.email_wayfair', readonly=False,
+                                help='Set this email to auto send Product Inventory Report.')
