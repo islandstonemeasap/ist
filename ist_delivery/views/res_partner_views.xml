@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+      <record id="view_res_partner_form_inherit
+_ist" model="ir.ui.view">
+	<field name="name">view.res.partner.form.inherit.ist</field>
+	<field name="model">res.partner</field>
+	<field name="inherit_id" ref="base.view_partner_form"/>
+	<field name="arch" type="xml">
+	  <xpath expr="//notebook" position="inside">
+	    <page string="Delivery Accounts" name="delivery_accounts">
+	      <field name="delivery_account_ids" mode="tree" nolabel="1">
+		<tree editable="bottom">
+		  <field name="carrier_id"/>
+		  <field name="account_number"/>
+		</tree>
+	      </field>
+	    </page>
+	  </xpath>
+	</field>
+      </record>
+
+    </data>
+</odoo>
