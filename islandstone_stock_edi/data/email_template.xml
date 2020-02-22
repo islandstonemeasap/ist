@@ -15,7 +15,22 @@
         </div>
                 </field>
                 <field name="auto_delete" eval="False"/>
-<!--                <field name="x_studio_attachment_test" eval="obj."/>-->
-            </record>
+        </record>
+
+        <record id="homedepot_email_report_template_islandstone" model="mail.template">
+                <field name="name">Product Report: Homedepot</field>
+                <field name="model_id" ref="islandstone_stock_edi.model_product_report"/>
+                <field name="subject">Wayfair Product Inventory Report</field>
+                <field name="email_from">${object.user_id.email_formatted | safe}</field>
+                <field name="email_to">${('' if object.company_id and object.sudo().company_id.email_wayfair | safe)}</field>
+                <field name="partner_to"></field>
+                <field name="lang">${object.partner_id.lang or object.user_id.lang or user.lang | safe}</field>
+                <field name="body_html" type="xml">
+        <div>
+            <h1>test2???</h1>
+        </div>
+                </field>
+                <field name="auto_delete" eval="False"/>
+        </record>
     </data>
 </odoo>

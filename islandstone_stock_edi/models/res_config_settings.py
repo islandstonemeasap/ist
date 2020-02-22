@@ -10,6 +10,9 @@ class ResCompany(models.Model):
     email_wayfair = fields.Char(string='Wayfair Report Email', readonly=False,
                                 help='Set this email to auto send Product Inventory Report.')
 
+    email_homedepot = fields.Char(string='Home Depot Report Email', readonly=False,
+                                  help='Set this email to auto send Product Inventory Report.')
+
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
@@ -29,3 +32,6 @@ class ResConfigSettings(models.TransientModel):
 
     email_wayfair = fields.Char(string='Wayfair Report Email', related='company_id.email_wayfair', readonly=False,
                                 help='Set this email to auto send Product Inventory Report.')
+
+    email_homedepot = fields.Char(string='Home Depot Report Email', related='company_id.email_homedepot', readonly=False,
+                                  help='Set this email to auto send Product Inventory Report.')

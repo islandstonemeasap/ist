@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="export_shipping_xml">
+        <Shipments xmlns="http://www.spscommerce.com/RSX">
+            <Shipment>
+                <Header>
+                    <ShipmentHeader>
+                        <TradingPartnerId><t t-esc="TradingPartnerId"/></TradingPartnerId>
+                        <ShipmentIdentification><t t-esc="ShipmentIdentification"/></ShipmentIdentification>
+                        <ShipDate><t t-esc="ShipDate"/></ShipDate>
+                        <TsetPurposeCode><t t-esc="TsetPurposeCode"/></TsetPurposeCode>
+                        <ShipNoticeDate><t t-esc="ShipNoticeDate"/></ShipNoticeDate>
+                        <ShipNoticeTime><t t-esc="ShipNoticeTime"/></ShipNoticeTime>
+                        <ASNStructureCode><t t-esc="ASNStructureCode"/></ASNStructureCode>
+                        <BillOfLadingNumber><t t-esc="BillOfLadingNumber"/></BillOfLadingNumber>
+                        <AppointmentNumber><t t-esc="AppointmentNumber"/></AppointmentNumber>
+                        <CurrentScheduledDeliveryDate><t t-esc="CurrentScheduledDeliveryDate"/></CurrentScheduledDeliveryDate>
+                        <CurrentScheduledDeliveryTime><t t-esc="CurrentScheduledDeliveryTime"/></CurrentScheduledDeliveryTime>
+                    </ShipmentHeader>
+                    <Dates>
+                        <DateTimeQualifier><t t-esc="DateTimeQualifier"/></DateTimeQualifier>
+                        <Date><t t-esc="Date"/></Date>
+                        <Time><t t-esc="Time"/></Time>
+                    </Dates>
+                    <References>
+                        <ReferenceQual><t t-esc="ReferenceQual"/></ReferenceQual>
+                        <ReferenceID><t t-esc="ReferenceID"/></ReferenceID>
+                        <Description><t t-esc="Description"/></Description>
+                    </References>
+                    <Notes>
+                        <NoteCode><t t-esc="NoteCode"/></NoteCode>
+                        <Note><t t-esc="Note"/></Note>
+                    </Notes>
+                    <Contacts>
+                        <ContactTypeCode><t t-esc="ContactTypeCode"/></ContactTypeCode>
+                        <ContactName><t t-esc="ContactName"/></ContactName>
+                        <PrimaryPhone><t t-esc="PrimaryPhone"/></PrimaryPhone>
+                        <PrimaryFax><t t-esc="PrimaryFax"/></PrimaryFax>
+                        <PrimaryEmail><t t-esc="PrimaryEmail"/></PrimaryEmail>
+                    </Contacts>
+                    <t t-foreach="addresses" t-as="add">
+                        <Address>
+                            <AddressTypeCode><t t-esc="add['AddressTypeCode']"/></AddressTypeCode>
+                            <LocationCodeQualifier><t t-esc="add['LocationCodeQualifier']"/></LocationCodeQualifier>
+                            <AddressLocationNumber><t t-esc="add['AddressLocationNumber']"/></AddressLocationNumber>
+                            <AddressName><t t-esc="add['AddressName']"/></AddressName>
+                            <Address1><t t-esc="add['Address1']"/></Address1>
+                            <Address2><t t-esc="add['Address2']"/></Address2>
+                            <City><t t-esc="add['City']"/></City>
+                            <State><t t-esc="add['State']"/></State>
+                            <PostalCode><t t-esc="add['PostalCode']"/></PostalCode>
+                            <Country><t t-esc="add['Country']"/></Country>
+                        </Address>
+                    </t>
+                    <CarrierInformation>
+                        <StatusCode><t t-esc="StatusCode"/></StatusCode>
+                        <CarrierTransMethodCode><t t-esc="CarrierTransMethodCode"/></CarrierTransMethodCode>
+                        <CarrierAlphaCode><t t-esc="CarrierAlphaCode"/></CarrierAlphaCode>
+                        <CarrierRouting><t t-esc="CarrierRouting"/></CarrierRouting>
+                        <EquipmentDescriptionCode><t t-esc="EquipmentDescriptionCode"/></EquipmentDescriptionCode>
+                        <CarrierEquipmentNumber><t t-esc="CarrierEquipmentNumber"/></CarrierEquipmentNumber>
+                        <SealNumbers>
+                            <SealNumber><t t-esc="SealNumber"/></SealNumber>
+                        </SealNumbers>
+                    </CarrierInformation>
+                    <QuantityAndWeight>
+                        <PackingMedium><t t-esc="PackingMedium"/></PackingMedium>
+                        <PackingMaterial><t t-esc="PackingMaterial"/></PackingMaterial>
+                        <LadingQuantity><t t-esc="LadingQuantity"/></LadingQuantity>
+                        <WeightQualifier><t t-esc="WeightQualifier"/></WeightQualifier>
+                        <Weight><t t-esc="Weight"/></Weight>
+                        <WeightUOM><t t-esc="WeightUOM"/></WeightUOM>
+                    </QuantityAndWeight>
+                    <FOBRelatedInstruction>
+                        <FOBPayCode><t t-esc="FOBPayCode"/></FOBPayCode>
+                        <FOBLocationQualifier><t t-esc="FOBLocationQualifier"/></FOBLocationQualifier>
+                        <FOBLocationDescription><t t-esc="FOBLocationDescription"/></FOBLocationDescription>
+                    </FOBRelatedInstruction>
+                    <QuantityTotals>
+                        <QuantityTotalsQualifier><t t-esc="QuantityTotalsQualifier"/></QuantityTotalsQualifier>
+                        <Quantity><t t-esc="Quantity"/></Quantity>
+                        <QuantityUOM><t t-esc="QuantityUOM"/></QuantityUOM>
+                    </QuantityTotals>
+                </Header>
+                <OrderLevel>
+                    <OrderHeader>
+                        <PurchaseOrderNumber><t t-esc="PurchaseOrderNumber"/></PurchaseOrderNumber>
+                        <ReleaseNumber><t t-esc="ReleaseNumber"/></ReleaseNumber>
+                        <PurchaseOrderDate><t t-esc="PurchaseOrderDate"/></PurchaseOrderDate>
+                        <Department><t t-esc="Department"/></Department>
+                        <Vendor><t t-esc="Vendor"/></Vendor>
+                    </OrderHeader>
+                    <QuantityAndWeight>
+                        <PackingMedium><t t-esc="PackingMedium"/></PackingMedium>
+                        <PackingMaterial><t t-esc="PackingMaterial"/></PackingMaterial>
+                        <LadingQuantity><t t-esc="LadingQuantity"/></LadingQuantity>
+                        <WeightQualifier><t t-esc="WeightQualifier"/></WeightQualifier>
+                        <Weight><t t-esc="Weight"/></Weight>
+                        <WeightUOM><t t-esc="WeightUOM"/></WeightUOM>
+                    </QuantityAndWeight>
+                    <t t-foreach="packages" t-as="pack">
+                        <PackLevel>
+                            <Pack>
+                                <PackLevelType><t t-esc="pack['PackLevelType']"/></PackLevelType>
+                                <ShippingSerialID><t t-esc="pack['ShippingSerialID']"/></ShippingSerialID>
+                            </Pack>
+                            <PhysicalDetails>
+                                <PackQualifier><t t-esc="pack['PackQualifier']"/></PackQualifier>
+                                <PackValue><t t-esc="pack['PackValue']"/></PackValue>
+                                <PackSize><t t-esc="pack['PackSize']"/></PackSize>
+                                <PackUOM><t t-esc="pack['PackUOM']"/></PackUOM>
+                                <PackingMedium><t t-esc="pack['PackingMedium']"/></PackingMedium>
+                                <PackingMaterial><t t-esc="pack['PackingMaterial']"/></PackingMaterial>
+                            </PhysicalDetails>
+                            <t t-foreach="pack['items']" t-as="item">
+                                <ItemLevel>
+                                    <ShipmentLine>
+                                        <LineSequenceNumber><t t-esc="item['LineSequenceNumber']"/></LineSequenceNumber>
+                                        <BuyerPartNumber><t t-esc="item['BuyerPartNumber']"/></BuyerPartNumber>
+                                        <VendorPartNumber><t t-esc="item['VendorPartNumber']"/></VendorPartNumber>
+                                        <ConsumerPackageCode><t t-esc="item['ConsumerPackageCode']"/></ConsumerPackageCode>
+                                        <GTIN><t t-esc="item['GTIN']"/></GTIN>
+                                        <UPCCaseCode><t t-esc="item['UPCCaseCode']"/></UPCCaseCode>
+                                        <ProductID>
+                                            <PartNumberQual><t t-esc="item['PartNumberQual']"/></PartNumberQual>
+                                            <PartNumber><t t-esc="item['PartNumber']"/></PartNumber>
+                                        </ProductID>
+                                        <OrderQty><t t-esc="item['OrderQty']"/></OrderQty>
+                                        <OrderQtyUOM><t t-esc="item['OrderQtyUOM']"/></OrderQtyUOM>
+                                        <PurchasePrice><t t-esc="item['PurchasePrice']"/></PurchasePrice>
+                                        <ItemStatusCode><t t-esc="item['ItemStatusCode']"/></ItemStatusCode>
+                                        <ShipQty><t t-esc="item['ShipQty']"/></ShipQty>
+                                        <ShipQtyUOM><t t-esc="item['ShipQtyUOM']"/></ShipQtyUOM>
+                                        <ProductSizeCode><t t-esc="item['ProductSizeCode']"/></ProductSizeCode>
+                                        <ProductSizeDescription><t t-esc="item['ProductSizeDescription']"/></ProductSizeDescription>
+                                        <ProductColorCode><t t-esc="item['ProductColorCode']"/></ProductColorCode>
+                                        <ProductColorDescription><t t-esc="item['ProductColorDescription']"/></ProductColorDescription>
+                                        <ProductMaterialDescription><t t-esc="item['ProductMaterialDescription']"/></ProductMaterialDescription>
+                                        <NRFStandardColorAndSize>
+                                            <NRFColorCode><t t-esc="item['NRFColorCode']"/></NRFColorCode>
+                                            <NRFSizeCode><t t-esc="item['NRFSizeCode']"/></NRFSizeCode>
+                                        </NRFStandardColorAndSize>
+                                    </ShipmentLine>
+                                    <PhysicalDetails>
+                                        <PackQualifier><t t-esc="item['PackQualifier']"/></PackQualifier>
+                                        <PackValue><t t-esc="item['PackValue']"/></PackValue>
+                                        <PackSize><t t-esc="item['PackSize']"/></PackSize>
+                                        <PackUOM><t t-esc="item['PackUOM']"/></PackUOM>
+                                    </PhysicalDetails>
+                                    <PriceInformation>
+                                        <PriceTypeIDCode><t t-esc="item['PriceTypeIDCode']"/></PriceTypeIDCode>
+                                        <UnitPrice><t t-esc="item['UnitPrice']"/></UnitPrice>
+                                    </PriceInformation>
+                                    <ProductOrItemDescription>
+                                        <ProductCharacteristicCode><t t-esc="item['ProductCharacteristicCode']"/></ProductCharacteristicCode>
+                                        <ProductDescription><t t-esc="item['ProductDescription']"/></ProductDescription>
+                                    </ProductOrItemDescription>
+                                    <Dates>
+                                        <DateTimeQualifier><t t-esc="item['DateTimeQualifier']"/></DateTimeQualifier>
+                                        <Date><t t-esc="item['Date']"/></Date>
+                                        <Time><t t-esc="item['Time']"/></Time>
+                                    </Dates>
+                                    <References>
+                                        <ReferenceQual><t t-esc="item['ReferenceQual']"/></ReferenceQual>
+                                        <ReferenceID><t t-esc="item['ReferenceID']"/></ReferenceID>
+                                    </References>
+                                    <Notes>
+                                        <NoteCode><t t-esc="item['NoteCode']"/></NoteCode>
+                                        <Note><t t-esc="item['Note']"/></Note>
+                                    </Notes>
+                                </ItemLevel>
+                            </t>
+                        </PackLevel>
+                    </t>
+                </OrderLevel>
+                <Summary>
+                    <TotalLineItemNumber><t t-esc="TotalLineItemNumber"/></TotalLineItemNumber>
+                </Summary>
+            </Shipment>
+        </Shipments>
+    </template>
+</odoo>

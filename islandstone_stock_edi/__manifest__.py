@@ -60,6 +60,7 @@ Flow.
     'data': [
         'security/ir.model.access.csv',
         'data/email_template.xml',
+        'data/actions.xml',
         'views/product_report_views.xml',
         'views/res_config_settings_views.xml',
         'views/stock_warehouse_views.xml',

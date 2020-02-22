@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <record model="ir.ui.view" id="product_report_tree_view">
+            <field name="name">product.report.tree.islandstone</field>
+            <field name="model">product.report</field>
+            <field name="arch" type="xml">
+                <tree string="Product Report">
+                    <field name="name"/>
+                    <field name="customer"/>
+                </tree>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="product_report_form_view">
             <field name="name">product.report.form.islandstone</field>
             <field name="model">product.report</field>
@@ -12,6 +23,7 @@
                             <h1><field name="name"/></h1>
                         </div>
                         <group>
+                            <field name="customer"/>
                             <field name="company_id"/>
                             <field name="attachment_id"/>
                         </group>

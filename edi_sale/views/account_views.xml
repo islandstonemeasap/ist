@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="invoice_form_inherit_edi_sale" model="ir.ui.view">
+        <field name="name">account.invoice.form.inherit.edi.sale</field>
+        <field name="model">account.invoice</field>
+        <field name="inherit_id" ref="account.invoice_form"/>
+        <field name="arch" type="xml">
+            <page name="other_info" position="after">
+                <page string="Custom Fields">
+                    <group>
+                        <field name="edi_status"/>
+                        <field name="allow_charge_indicator"/>
+                        <field name="allow_charge_code"/>
+                        <field name="allow_charge_amount"/>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>

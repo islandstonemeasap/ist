@@ -10,5 +10,4 @@ class IrAttachment(models.Model):
     @api.model
     def get_company_attachment(self):
         prod_report = self.env['product.report'].search([('company_id', '=', self.company_id)])
-
         return prod_report.attachment_id
