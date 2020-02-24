@@ -50,12 +50,19 @@ class ProductReport(models.Model):
         return data
 
     @api.multi
-    def _update_wayfair_attachment(self):
-        """
-        This method will check if we have any existent attachment matching the model
-        and res_ids and create them if not found.
-        """
+    def create_homedepot_prod_report(self):
+        data = []
+        for prod in self.prod_tmpl_ids:
+            rounding = prod.uom_id.rounding
+            on_hand = float_round(prod.qty_available - prod.outgoing_qty, precision_rounding=rounding)
+            data.append({
+                'ref': prod.default_code,
+                'on_hand': on_hand,
+            })
+        return data
 
+    @api.multi
+    def _update_wayfair_attachment(self):
         report_name = '{company}_wayfair_{date}'.format(company=self.company_id.name,
                                                         date=datetime.now().strftime("%Y_%m_%d"))
         filename = "%s.%s" % (report_name, "xlsx")
@@ -63,14 +70,15 @@ class ProductReport(models.Model):
         # Create a workbook and add a worksheet.
         workbook = xlsxwriter.Workbook(filename, {'in_memory': True})
         worksheet = workbook.add_worksheet()
+        bold = workbook.add_format({'bold': True})
 
         # Some data we want to write to the worksheet.
         data = self.create_wayfair_prod_report()
 
-        worksheet.write('A1', 'Supplier ID')
-        worksheet.write('B1', 'Internal Reference Number')
-        worksheet.write('C1', 'Available Inventory')
-        worksheet.write('D1', 'Product Name')
+        worksheet.write('A1', 'Supplier ID', bold)
+        worksheet.write('B1', 'Internal Reference Number', bold)
+        worksheet.write('C1', 'Available Inventory', bold)
+        worksheet.write('D1', 'Product Name', bold)
 
         # Start from the second row. Rows and columns are zero indexed.
         row = 1
@@ -99,10 +107,63 @@ class ProductReport(models.Model):
         self.attachment_id = attachment
 
     @api.multi
+    def _update_homedepot_attachment(self):
+        report_name = '{company}_homedepot_{date}'.format(company=self.company_id.name,
+                                                          date=datetime.now().strftime("%Y_%m_%d"))
+        filename = "%s.%s" % (report_name, "xlsx")
+
+        # Create a workbook and add a worksheet.
+        workbook = xlsxwriter.Workbook(filename, {'in_memory': True})
+        worksheet = workbook.add_worksheet()
+        bold = workbook.add_format({'bold': True})
+
+        # Some data we want to write to the worksheet.
+        data = self.create_homedepot_prod_report()
+
+        worksheet.write('A1', 'SKU', bold)
+        worksheet.write('B1', 'Quantity', bold)
+
+        # Start from the second row. Rows and columns are zero indexed.
+        row = 1
+        col = 0
+
+        # Iterate over the data and write it out row by row.
+        for line in data:
+            worksheet.write(row, col, line['ref'])
+            worksheet.write(row, col + 1, line['on_hand'])
+            row += 1
+
+        workbook.close()
+        with open(filename, "rb") as file:
+            file_base64 = base64.b64encode(file.read())
+        # TODO: check if i need to delete old files, save room?
+        attachment = self.env['ir.attachment'].create({
+            'name': filename,
+            'datas': file_base64,
+            'datas_fname': filename,
+            'res_model': 'product.report',
+            'res_id': self.id,
+            'type': 'binary',  # override default_type from context, possibly meant for another model!
+        })
+        self.attachment_id = attachment
+
+    @api.multi
     def do_wayfair_report_email(self):
-        attachment_id = self.attachment_id.id
         vals = {'email_to': self.company_id.email_wayfair,
-                'body_html': 'hello',
+                'body_html': 'Product Inventory Report for Wayfair',
+                'attachment_ids': [(6, 0, [self.attachment_id.id])]
+                }
+        try:
+            report_email = self.env['mail.mail'].create(vals)
+            report_email.send()
+            return report_email
+        except:
+            return False
+
+    @api.multi
+    def do_homedepot_report_email(self):
+        vals = {'email_to': self.company_id.email_homedepot,
+                'body_html': 'Product Inventory Report for Home Depot',
                 'attachment_ids': [(6, 0, [self.attachment_id.id])]
                 }
         try:
@@ -115,7 +176,7 @@ class ProductReport(models.Model):
     @api.model
     def send_wayfair_report(self):
         # Grab all the reports that are in the db
-        report_ids = self.env['product.report'].search([])
+        report_ids = self.env['product.report'].search([('customer', '=', 'wayfair')])
         print(report_ids)
         # Update the XLSX files
         for report in report_ids:
@@ -124,3 +185,14 @@ class ProductReport(models.Model):
             # Send Email
             email = report.do_wayfair_report_email()
 
+    @api.model
+    def send_homedepot_report(self):
+        # Grab all the reports that are in the db
+        report_ids = self.env['product.report'].search([('customer', '=', 'homedepot')])
+        print(report_ids)
+        # Update the XLSX files
+        for report in report_ids:
+            report._update_homedepot_attachment()
+            # Send FTP
+            # Send Email
+            email = report.do_homedepot_report_email()
