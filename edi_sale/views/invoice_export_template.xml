@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="export_invoice_xml">
+        <Orders xmlns="http://www.spscommerce.com/RSX">
+            <Order>
+                <Header>
+                    <OrderHeader>
+                        <InvoiceHeader>
+                            <TradingPartnerId><t t-esc="TradingPartnerId"/></TradingPartnerId>
+                            <InvoiceNumber><t t-esc="InvoiceNumber"/></InvoiceNumber>
+                            <InvoiceDate><t t-esc="InvoiceDate"/></InvoiceDate>
+                            <PurchaseOrderDate><t t-esc="PurchaseOrderDate"/></PurchaseOrderDate>
+                            <PurchaseOrderNumber><t t-esc="PurchaseOrderNumber"/></PurchaseOrderNumber>
+                            <InvoiceTypeCode><t t-esc="InvoiceTypeCode"/></InvoiceTypeCode>
+                            <TsetPurposeCode><t t-esc="TsetPurposeCode"/></TsetPurposeCode>
+                            <BuyersCurrency><t t-esc="BuyersCurrency"/></BuyersCurrency>
+                            <Department><t t-esc="Department"/></Department>
+                            <Vendor><t t-esc="Vendor"/></Vendor>
+                            <CustomerOrderNumber><t t-esc="CustomerOrderNumber"/></CustomerOrderNumber>
+                            <BillOfLadingNumber><t t-esc="BillOfLadingNumber"/></BillOfLadingNumber>
+                            <CarrierProNumber><t t-esc="CarrierProNumber"/></CarrierProNumber>
+                            <ShipDate><t t-esc="ShipDate"/></ShipDate>
+                        </InvoiceHeader>
+
+                        <PaymentTerms>
+                            <TermsType><t t-esc="TermsType"/></TermsType>
+                            <TermsBasisDateCode><t t-esc="TermsBasisDateCode"/></TermsBasisDateCode>
+                            <TermsDiscountPercentage><t t-esc="TermsDiscountPercentage"/></TermsDiscountPercentage>
+                            <TermsDiscountDate><t t-esc="TermsDiscountDate"/></TermsDiscountDate>
+                            <TermsDiscountDueDays></TermsDiscountDueDays>
+                            <TermsNetDueDate><t t-esc="TermsNetDueDate"/></TermsNetDueDate>
+                            <TermsNetDueDays><t t-esc="TermsNetDueDays"/></TermsNetDueDays>
+                            <TermsDiscountAmount><t t-esc="TermsDiscountAmount"/></TermsDiscountAmount>
+                            <TermsDescription><t t-esc="TermsDescription"/></TermsDescription>
+                        </PaymentTerms>
+
+                        <Dates>
+                            <DateTimeQualifier><t t-esc="DateTimeQualifier"/></DateTimeQualifier>
+                            <Date><t t-esc="Date"/></Date>
+                            <Time></Time>
+                        </Dates>
+                        <Contacts>
+                            <ContactTypeCode><t t-esc="ContactTypeCode"/></ContactTypeCode>
+                            <ContactName><t t-esc="ContactName"/></ContactName>
+                            <PrimaryPhone><t t-esc="PrimaryPhone"/></PrimaryPhone>
+                            <PrimaryFax></PrimaryFax>
+                            <PrimaryEmail><t t-esc="PrimaryEmail"/></PrimaryEmail>
+                        </Contacts>
+                        <t t-foreach="addresses" t-as="address">
+                            <Address>
+                                <AddressTypeCode><t t-esc="address['AddressTypeCode']"/></AddressTypeCode>
+                                <LocationCodeQualifier><t t-esc="address['LocationCodeQualifier']"/></LocationCodeQualifier>
+                                <AddressLocationNumber><t t-esc="address['AddressLocationNumber']"/></AddressLocationNumber>
+                                <AddressName><t t-esc="address['AddressName']"/></AddressName>
+                                <AddressAlternateName></AddressAlternateName>
+                                <Address1><t t-esc="address['Address1']"/></Address1>
+                                <Address2></Address2>
+                                <City><t t-esc="address['City']"/></City>
+                                <State><t t-esc="address['State']"/></State>
+                                <PostalCode><t t-esc="address['PostalCode']"/></PostalCode>
+                                <Country><t t-esc="address['Country']"/></Country>
+                            </Address>
+                        </t>
+
+                        <References>
+                            <ReferenceQual><t t-esc="ReferenceQual"/></ReferenceQual>
+                            <ReferenceID><t t-esc="ReferenceID"/></ReferenceID>
+                            <Description><t t-esc="Description"/></Description>
+                        </References>
+                        <Notes>
+                            <NoteCode><t t-esc="NoteCode"/></NoteCode>
+                            <Note><t t-esc="Note"/></Note>
+                        </Notes>
+                        <Taxes>
+                            <TaxTypeCode><t t-esc="TaxTypeCode"/></TaxTypeCode>
+                            <TaxAmount><t t-esc="TaxAmount"/></TaxAmount>
+                            <TaxPercent><t t-esc="TaxPercent"/></TaxPercent>
+                            <JurisdictionQual><t t-esc="JurisdictionQual"/></JurisdictionQual>
+                            <JurisdictionCode><t t-esc="JurisdictionCode"/></JurisdictionCode>
+                            <TaxExemptCode><t t-esc="TaxExemptCode"/></TaxExemptCode>
+                            <TaxID><t t-esc="TaxID"/></TaxID>
+                        </Taxes>
+                        <ChargesAllowances>
+                            <AllowChrgIndicator><t t-esc="AllowChrgIndicator"/></AllowChrgIndicator>
+                            <AllowChrgCode><t t-esc="AllowChrgCode"/></AllowChrgCode>
+                            <AllowChrgAmt><t t-esc="AllowChrgAmt"/></AllowChrgAmt>
+                            <AllowChrgPercentQual><t t-esc="AllowChrgPercentQual"/></AllowChrgPercentQual>
+                            <AllowChrgPercent><t t-esc="AllowChrgPercent"/></AllowChrgPercent>
+                            <AllowChrgHandlingCode><t t-esc="AllowChrgHandlingCode"/></AllowChrgHandlingCode>
+                            <AllowChrgHandlingDescription><t t-esc="AllowChrgHandlingDescription"/></AllowChrgHandlingDescription>
+                        </ChargesAllowances>
+                        <FOBRelatedInstruction>
+                            <FOBPayCode></FOBPayCode>
+                            <FOBLocationQualifier></FOBLocationQualifier>
+                            <FOBLocationDescription></FOBLocationDescription>
+                        </FOBRelatedInstruction>
+                        <CarrierInformation>
+                            <StatusCode><t t-esc="StatusCode"/></StatusCode>
+                            <CarrierTransMethodCode><t t-esc="CarrierTransMethodCode"/></CarrierTransMethodCode>
+                            <CarrierAlphaCode><t t-esc="CarrierAlphaCode"/></CarrierAlphaCode>
+                            <CarrierRouting><t t-esc="CarrierRouting"/></CarrierRouting>
+                            <EquipmentDescriptionCode><t t-esc="EquipmentDescriptionCode"/></EquipmentDescriptionCode>
+                            <CarrierEquipmentNumber><t t-esc="CarrierEquipmentNumber"/></CarrierEquipmentNumber>
+                            <SealNumbers>
+                                <SealNumber></SealNumber>
+                            </SealNumbers>
+                        </CarrierInformation>
+                        <QuantityTotals>
+                            <QuantityTotalsQualifier><t t-esc="QuantityTotalsQualifier"/></QuantityTotalsQualifier>
+                            <Quantity><t t-esc="Quantity"/></Quantity>
+                            <QuantityUOM><t t-esc="QuantityUOM"/></QuantityUOM>
+                        </QuantityTotals>
+                    </OrderHeader>
+                </Header>
+                <t t-foreach="lines" t-as="line">
+                    <LineItem>
+                        <InvoiceLine>
+                            <LineSequenceNumber><t t-esc="line['LineSequenceNumber']"/></LineSequenceNumber>
+                            <BuyerPartNumber><t t-esc="line['BuyerPartNumber']"/></BuyerPartNumber>
+                            <VendorPartNumber><t t-esc="line['VendorPartNumber']"/></VendorPartNumber>
+                            <ConsumerPackageCode><t t-esc="line['ConsumerPackageCode']"/></ConsumerPackageCode>
+                            <GTIN><t t-esc="line['GTIN']"/></GTIN>
+                            <UPCCaseCode><t t-esc="line['UPCCaseCode']"/></UPCCaseCode>
+                            <ProductID>
+                                <PartNumberQual><t t-esc="line['PartNumberQual']"/></PartNumberQual>
+                                <PartNumber><t t-esc="line['PartNumber']"/></PartNumber>
+                            </ProductID>
+                            <InvoiceQty><t t-esc="line['InvoiceQty']"/></InvoiceQty>
+                            <InvoiceQtyUOM><t t-esc="line['InvoiceQtyUOM']"/></InvoiceQtyUOM>
+                            <PurchasePrice><t t-esc="line['PurchasePrice']"/></PurchasePrice>
+                            <ShipQty><t t-esc="line['ShipQty']"/></ShipQty>
+                            <ShipQtyUOM><t t-esc="line['ShipQtyUOM']"/></ShipQtyUOM>
+                            <ProductSizeDescription></ProductSizeDescription>
+                            <ProductColorDescription></ProductColorDescription>
+                            <ProductMaterialDescription></ProductMaterialDescription>
+                            <NRFStandardColorAndSize>
+                                <NRFColorCode></NRFColorCode>
+                                <NRFSizeCode></NRFSizeCode>
+                            </NRFStandardColorAndSize>
+                        </InvoiceLine>
+                        <PriceInformation>
+                            <PriceTypeIDCode><t t-esc="line['PriceTypeIDCode']"/></PriceTypeIDCode>
+                            <UnitPrice><t t-esc="line['UnitPrice']"/></UnitPrice>
+                        </PriceInformation>
+                        <ProductOrItemDescription>
+                            <ProductCharacteristicCode><t t-esc="line['ProductCharacteristicCode']"/></ProductCharacteristicCode>
+                            <ProductDescription><t t-esc="line['ProductDescription']"/></ProductDescription>
+                        </ProductOrItemDescription>
+                        <References>
+                            <ReferenceQual><t t-esc="line['ReferenceQual']"/></ReferenceQual>
+                            <ReferenceID><t t-esc="line['ReferenceID']"/></ReferenceID>
+                        </References>
+                        <Notes>
+                            <NoteCode><t t-esc="line['NoteCode']"/></NoteCode>
+                            <Note><t t-esc="line['Note']"/></Note>
+                        </Notes>
+                    </LineItem>
+                </t>
+                <Summary>
+                    <TotalAmount><t t-esc="TotalAmount"/></TotalAmount>
+                    <TotalSalesAmount><t t-esc="TotalSalesAmount"/></TotalSalesAmount>
+                    <TotalTermsDiscountAmount><t t-esc="TotalTermsDiscountAmount"/></TotalTermsDiscountAmount>
+                    <TotalLineItemNumber><t t-esc="TotalLineItemNumber"/></TotalLineItemNumber>
+                    <InvoiceAmtDueByTermsDate><t t-esc="InvoiceAmtDueByTermsDate"/></InvoiceAmtDueByTermsDate>
+                </Summary>
+            </Order>
+        </Orders>
+    </template>
+</odoo>
