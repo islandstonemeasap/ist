@@ -28,7 +28,7 @@
                             <field name="attachment_id"/>
                         </group>
                         <group>
-                            <field name="warehouse_ids">
+                            <field name="warehouse_ids" attrs="{'invisible':[('customer', '=', 'homedepot')]}">
                                 <tree string="Warehouses">
                                     <field name="name"/>
                                 </tree>

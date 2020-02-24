@@ -3,7 +3,7 @@
     'name': "Island Stone North America: Generate Inventory XLSX",
 
     'summary': """
-        Island Stone North America, Inc. needs to be able to generate a file with the inventory amount per warehouse and sku so Wayfair can use it on their website to publish products that they sell.""",
+        Island Stone North America, Inc. needs to be able to generate a file with the inventory amount per warehouse and sku so Wayfair and Home Depot can use it on their website to publish products that they sell.""",
 
     'description': """
 Development ID: 2154995 - CIC
@@ -17,13 +17,10 @@ Customer comment (   the Wayfair and Build inventory reports are both done in bo
 So this means we could have a separate field with the conversion ratio to a box.
 
 Supplier ID: Warehouse given number
-
-
-
 See the file attached.
 
 This is a multi-company database but the file should only come from one specific company.
-        Configuration:​
+Configuration:​
 
 1. The end-user with inventory manager permissions will go to the products catalog and mark (ideally a checkbox) the products that should appear in the excel file
 
@@ -38,6 +35,32 @@ This is a multi-company database but the file should only come from one specific
 Flow.
 
 1. Odoo generates the file and it should be sent to the ftp configured under settings, The periodicity would be based on automated action.
+
+2. If this configuration is set for more than one company the system should generate one file per company.
+
+
+Development ID: 2156940 - CIC
+1. The system should generate a file with products that they sell in the home depot store and send it through email.
+
+SKU = Internal Reference
+
+Quantity = Stock on hand for all warehouses - reserved delivery orders for all warehouses
+
+This is a multi-company database but the file should only come from one specific company.
+
+Configuration:
+
+1. The end-user with inventory manager permissions will go to the products catalog and mark (ideally a checkbox) the products that should appear in the excel file
+
+2. The end-user configures which company should be generating the file. (they should have the option to generate a file for more than one company)
+
+3. Under inventory settings, there should be a section for Home Depot, here this user is going to configure who receives the email.
+
+4. This user should be able to go under automated actions and specify the frequency this file is sent.
+
+Flow.
+
+1. Odoo generates the file and it should be sent to the email configured under settings, this email does not need any special formatting, the important thing is the file. The periodicity would be based on automated action.
 
 2. If this configuration is set for more than one company the system should generate one file per company.
 

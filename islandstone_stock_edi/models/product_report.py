@@ -14,8 +14,9 @@ class ProductReport(models.Model):
     _description = 'Product Report'
 
     customer = fields.Selection(string='Customer', required=True,
-                                selection=[('homedepot', 'Home Depot'),
-                                           ('wayfair', 'Wayfair')])
+                                selection=[('homedepot', 'Home Depot')],
+                                default='homedepot')
+                                           # ('wayfair', 'Wayfair')])
     company_id = fields.Many2one(comodel_name='res.company', string='Company', required=True)
     name = fields.Char(related='company_id.name', string="Product Report Name", readonly=True)
     # TODO: check how to restrict the warehouses to the company_id, currently only showing by users company...
@@ -193,6 +194,5 @@ class ProductReport(models.Model):
         # Update the XLSX files
         for report in report_ids:
             report._update_homedepot_attachment()
-            # Send FTP
             # Send Email
             email = report.do_homedepot_report_email()
