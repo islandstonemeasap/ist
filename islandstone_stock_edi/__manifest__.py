@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Island Stone North America: Generate Inventory XLSX",
+    'name': "Island Stone North America: Generate Inventory Report XLSX",
 
     'summary': """
-        Island Stone North America, Inc. needs to be able to generate a file with the inventory amount per warehouse and sku so Wayfair and Home Depot can use it on their website to publish products that they sell.""",
+        Island Stone North America, Inc. needs to be able to generate a file with the inventory amount per warehouse and sku so Wayfair and Build.com can use it on their website to publish products that they sell.""",
 
     'description': """
 Development ID: 2154995 - CIC
@@ -40,7 +40,7 @@ Flow.
 
 
 Development ID: 2156940 - CIC
-1. The system should generate a file with products that they sell in the home depot store and send it through email.
+1. The system should generate a file with products that they sell in the Build.com store and send it through email.
 
 SKU = Internal Reference
 
@@ -54,7 +54,7 @@ Configuration:
 
 2. The end-user configures which company should be generating the file. (they should have the option to generate a file for more than one company)
 
-3. Under inventory settings, there should be a section for Home Depot, here this user is going to configure who receives the email.
+3. Under inventory settings, there should be a section for Build.com, here this user is going to configure who receives the email.
 
 4. This user should be able to go under automated actions and specify the frequency this file is sent.
 
@@ -82,7 +82,6 @@ Flow.
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        # 'data/email_template.xml',
         'data/actions.xml',
         'views/product_report_views.xml',
         'views/res_config_settings_views.xml',

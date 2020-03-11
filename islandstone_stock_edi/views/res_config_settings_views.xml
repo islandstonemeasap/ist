@@ -43,36 +43,36 @@
 <!--                                </div>-->
 <!--                            </div>-->
 <!--                        </div>-->
-<!--                        <div class="col-12 col-lg-6 o_setting_box"-->
-<!--                             title="This allows you to the email address for Wayfair.">-->
-<!--                            <div class="o_setting_left_pane"/>-->
-<!--                            <div class="o_setting_right_pane">-->
-<!--                                <span class="o_form_label">Wayfair Email Configuration</span>-->
-<!--                        <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>-->
-<!--                                <div class="text-muted">-->
-<!--                                    Send product inventory to Wayfair via email-->
-<!--                                </div>-->
-<!--                                <div class="content-group">-->
-<!--                                    <div class="row mt16">-->
-<!--                                        <label for="email_wayfair" class="col-lg-3 o_light_label"/>-->
-<!--                                        <field name="email_wayfair"/>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
                         <div class="col-12 col-lg-6 o_setting_box"
-                             title="This allows you to the email address for Home Depot.">
+                             title="This allows you to the email address for Wayfair.">
                             <div class="o_setting_left_pane"/>
                             <div class="o_setting_right_pane">
-                                <span class="o_form_label">Home Depot Email Configuration</span>
+                                <span class="o_form_label">Wayfair Email Configuration</span>
                                 <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>
                                 <div class="text-muted">
-                                    Send product inventory to Home Depot via email
+                                    Send product inventory to Wayfair via email
                                 </div>
                                 <div class="content-group">
                                     <div class="row mt16">
-                                        <label for="email_homedepot" class="col-lg-3 o_light_label"/>
-                                        <field name="email_homedepot"/>
+                                        <label for="email_wayfair" class="col-lg-3 o_light_label"/>
+                                        <field name="email_wayfair"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box"
+                             title="This allows you to the email address for Build.com.">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Build.com Email Configuration</span>
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>
+                                <div class="text-muted">
+                                    Send product inventory to Build.com via email
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="email_build" class="col-lg-3 o_light_label"/>
+                                        <field name="email_build"/>
                                     </div>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='parent_id']" position="after">
                     <field name="email_wayfair"/>
-                    <field name="email_homedepot"/>
+                    <field name="email_build"/>
                 </xpath>
             </field>
         </record>
