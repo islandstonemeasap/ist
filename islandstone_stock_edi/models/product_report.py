@@ -14,9 +14,8 @@ class ProductReport(models.Model):
     _description = 'Product Report'
 
     customer = fields.Selection(string='Customer', required=True,
-                                selection=[('homedepot', 'Home Depot')],
-                                default='homedepot')
-                                           # ('wayfair', 'Wayfair')])
+                                selection=[('build', 'Build.com'), ('wayfair', 'Wayfair')],
+                                default='build')
     company_id = fields.Many2one(comodel_name='res.company', string='Company', required=True)
     name = fields.Char(related='company_id.name', string="Product Report Name", readonly=True)
     # TODO: check how to restrict the warehouses to the company_id, currently only showing by users company...
@@ -51,7 +50,7 @@ class ProductReport(models.Model):
         return data
 
     @api.multi
-    def create_homedepot_prod_report(self):
+    def create_build_prod_report(self):
         data = []
         for prod in self.prod_tmpl_ids:
             rounding = prod.uom_id.rounding
@@ -108,9 +107,9 @@ class ProductReport(models.Model):
         self.attachment_id = attachment
 
     @api.multi
-    def _update_homedepot_attachment(self):
-        report_name = '{company}_homedepot_{date}'.format(company=self.company_id.name,
-                                                          date=datetime.now().strftime("%Y_%m_%d"))
+    def _update_build_attachment(self):
+        report_name = '{company}_build_{date}'.format(company=self.company_id.name,
+                                                      date=datetime.now().strftime("%Y_%m_%d"))
         filename = "%s.%s" % (report_name, "xlsx")
 
         # Create a workbook and add a worksheet.
@@ -119,7 +118,7 @@ class ProductReport(models.Model):
         bold = workbook.add_format({'bold': True})
 
         # Some data we want to write to the worksheet.
-        data = self.create_homedepot_prod_report()
+        data = self.create_build_prod_report()
 
         worksheet.write('A1', 'SKU', bold)
         worksheet.write('B1', 'Quantity', bold)
@@ -162,9 +161,9 @@ class ProductReport(models.Model):
             return False
 
     @api.multi
-    def do_homedepot_report_email(self):
-        vals = {'email_to': self.company_id.email_homedepot,
-                'body_html': 'Product Inventory Report for Home Depot',
+    def do_build_report_email(self):
+        vals = {'email_to': self.company_id.email_build,
+                'body_html': 'Product Inventory Report for Build.com',
                 'attachment_ids': [(6, 0, [self.attachment_id.id])]
                 }
         try:
@@ -187,12 +186,12 @@ class ProductReport(models.Model):
             email = report.do_wayfair_report_email()
 
     @api.model
-    def send_homedepot_report(self):
+    def send_build_report(self):
         # Grab all the reports that are in the db
-        report_ids = self.env['product.report'].search([('customer', '=', 'homedepot')])
+        report_ids = self.env['product.report'].search([('customer', '=', 'build')])
         print(report_ids)
         # Update the XLSX files
         for report in report_ids:
-            report._update_homedepot_attachment()
+            report._update_build_attachment()
             # Send Email
-            email = report.do_homedepot_report_email()
+            email = report.do_build_report_email()
