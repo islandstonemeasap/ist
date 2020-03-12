@@ -24,7 +24,7 @@ class EasypostRequest(EasypostRequest):
         # order should contain all the info we need in order to put in the payment account
         if self._is_receiver_payment_type(order) and order.partner_shipping_id.country_id.code and order.partner_shipping_id.zip:  # should use the address helper here
             values = {
-                'type': order.delivery_payment_type,
+                'type': order.delivery_payment_type.upper(),
                 'account': order.delivery_account_id.account_number,
                 'country': order.partner_shipping_id.country_id.code,
                 'postal_code': order.partner_shipping_id.zip
