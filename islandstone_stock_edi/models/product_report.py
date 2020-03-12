@@ -34,8 +34,13 @@ class ProductReport(models.Model):
 
         for prod in self.prod_tmpl_ids:
             for wh in self.warehouse_ids:
+                quant_ids = self.env['stock.quant'].search([('product_id', '=', prod.product_variant_id.id),
+                                                            ('location_id', '=', wh.lot_stock_id.id)])
+
                 rounding = prod.uom_id.rounding
-                on_hand = float_round(prod.qty_available - prod.outgoing_qty, precision_rounding=rounding)
+                on_hand = 0
+                for quant in quant_ids:
+                    on_hand += float_round(quant.quantity - quant.reserved_quantity, precision_rounding=rounding)
                 try:
                     available = on_hand // prod.pieces_per_box
                 except ZeroDivisionError:
@@ -108,7 +113,7 @@ class ProductReport(models.Model):
 
     @api.multi
     def _update_build_attachment(self):
-        report_name = '{company}_build_{date}'.format(company=self.company_id.name,
+        report_name = '{company}_build.com_{date}'.format(company=self.company_id.name,
                                                       date=datetime.now().strftime("%Y_%m_%d"))
         filename = "%s.%s" % (report_name, "xlsx")
 
