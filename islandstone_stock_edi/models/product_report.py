@@ -182,7 +182,6 @@ class ProductReport(models.Model):
     # def send_wayfair_report(self):
     #     # Grab all the reports that are in the db
     #     report_ids = self.env['product.report'].search([('customer', '=', 'wayfair')])
-    #     print(report_ids)
     #     # Update the XLSX files
     #     for report in report_ids:
     #         report._update_wayfair_attachment()
@@ -194,7 +193,6 @@ class ProductReport(models.Model):
     def send_build_report(self):
         # Grab all the reports that are in the db
         report_ids = self.env['product.report'].search([('customer', '=', 'build')])
-        print(report_ids)
         # Update the XLSX files
         for report in report_ids:
             report._update_build_attachment()
