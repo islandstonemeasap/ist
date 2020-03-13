@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Add configuration fields to the general settings view-->
+        <record id="res_config_settings_view_form_islandstone" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.island.stone</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <div id="production_lot_info" position="after">
+                    <h2>Product Report</h2>
+                    <div class="row mt16 o_settings_container" id="stock_ftp_settings">
+<!--                        <div class="col-12 col-lg-6 o_setting_box"-->
+<!--                             title="This allows you to the ftp server for Wayfair.">-->
+<!--                            <div class="o_setting_left_pane"/>-->
+<!--                            <div class="o_setting_right_pane">-->
+<!--                                <span class="o_form_label">Wayfair FTP Configuration</span>-->
+<!--                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>-->
+                        <!--                                '<div class="text-muted">-->
+<!--                                    Send product inventory to Wayfair via FTP-->
+<!--                                </div>-->
+<!--                                <div class="content-group">-->
+<!--                                    <div class="row mt16">-->
+<!--                                        <label for="ftp_host_wayfair" class="col-lg-3 o_light_label"/>-->
+<!--                                        <field name="ftp_host_wayfair"/>-->
+<!--                                    </div>-->
+<!--                                    <div class="row mt16">-->
+<!--                                        <label for="ftp_port_wayfair" class="col-lg-3 o_light_label"/>-->
+<!--                                        <field name="ftp_port_wayfair"/>-->
+<!--                                    </div>-->
+<!--                                    <div class="row mt16">-->
+<!--                                        <label for="ftp_protocol_wayfair" class="col-lg-3 o_light_label"/>-->
+<!--                                        <field name="ftp_protocol_wayfair"/>-->
+<!--                                    </div>-->
+<!--                                    <div class="row mt16">-->
+<!--                                        <label for="ftp_login_wayfair" class="col-lg-3 o_light_label"/>-->
+<!--                                        <field name="ftp_login_wayfair"/>-->
+<!--                                    </div>-->
+<!--                                    <div class="row mt16">-->
+<!--                                        <label for="ftp_password_wayfair" class="col-lg-3 o_light_label"/>-->
+<!--                                        <field name="ftp_password_wayfair" password="True"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-12 col-lg-6 o_setting_box"-->
+<!--                             title="This allows you to the email address for Wayfair.">-->
+<!--                            <div class="o_setting_left_pane"/>-->
+<!--                            <div class="o_setting_right_pane">-->
+<!--                                <span class="o_form_label">Wayfair Email Configuration</span>-->
+<!--                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>-->
+<!--                                <div class="text-muted">-->
+<!--                                    Send product inventory to Wayfair via email-->
+<!--                                </div>-->
+<!--                                <div class="content-group">-->
+<!--                                    <div class="row mt16">-->
+<!--                                        <label for="email_wayfair" class="col-lg-3 o_light_label"/>-->
+<!--                                        <field name="email_wayfair"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="col-12 col-lg-6 o_setting_box"
+                             title="This allows you to the email address for Build.com.">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <span class="o_form_label">Build.com Email Configuration</span>
+                                <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>
+                                <div class="text-muted">
+                                    Send product inventory to Build.com via email
+                                </div>
+                                <div class="content-group">
+                                    <div class="row mt16">
+                                        <label for="email_build" class="col-lg-3 o_light_label"/>
+                                        <field name="email_build"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </field>
+        </record>
+        <!--Add email field to the company view-->
+        <record id="res_company_form_inherit_islandstone" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.island.stone</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="after">
+<!--                    <field name="email_wayfair"/>-->
+                    <field name="email_build"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
