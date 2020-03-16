@@ -42,12 +42,12 @@
             </customer_info>
             <shipping_info>
                 <t t-set="shipping_info" t-value="invoice.partner_shipping_id"/> 
-                <shipper>Estes</shipper>
+                <shipper><t t-esc="order.carrier_id.name"/></shipper>
                 <shipping_method><t t-esc="order.carrier_id.name"/></shipping_method>
-                <ship_date>11/13/2019</ship_date>
-                <shipping_payment>Collect</shipping_payment>
+                <ship_date></ship_date>
+                <shipping_payment><t t-esc="order.carrier_id.delivery_type"/></shipping_payment>
                 <shipping_cost><t t-esc="order.delivery_price"/></shipping_cost>
-                <tracking_number>054-2615492</tracking_number>
+                <tracking_number></tracking_number>
                 <address>
                     <name><t t-esc="shipping_info.name"/></name>
                     <street><t t-esc="shipping_info.street"/>, <t t-esc="customer.street2"/></street>
