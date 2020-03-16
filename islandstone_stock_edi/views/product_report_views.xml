@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="product_report_tree_view">
+            <field name="name">product.report.tree.islandstone</field>
+            <field name="model">product.report</field>
+            <field name="arch" type="xml">
+                <tree string="Product Report">
+                    <field name="name"/>
+                    <field name="customer"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="product_report_form_view">
+            <field name="name">product.report.form.islandstone</field>
+            <field name="model">product.report</field>
+            <field name="arch" type="xml">
+                <form string="Product Report Form">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Report Name" />
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <field name="customer"/>
+                            <field name="company_id"/>
+                            <field name="attachment_id"/>
+                        </group>
+                        <group>
+                            <field name="warehouse_ids" attrs="{'invisible':[('customer', '=', 'build')]}">
+                                <tree string="Warehouses">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                            <field name="prod_tmpl_ids">
+                                <tree string="Products">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="product_report_list_action">
+            <field name="name">Product Report</field>
+            <field name="res_model">product.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem
+            id="product_report_menu"
+            name="Product Report"
+            parent="stock.menu_warehouse_report"
+            action="product_report_list_action"/>
+    </data>
+</odoo>
