@@ -29,5 +29,7 @@ class PartnerDeliveryAccount(models.Model):
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    delivery_account_ids = fields.Many2many('partner.delivery.account')
+    delivery_account_ids = fields.Many2many('partner.delivery.account', string='Delivery Account (Easypost)')
+    is_delivery_billing = fields.Boolean('Is 3rd Party Billing Address (Easypost)')
+    partner_delivery_billing_ids = fields.Many2many('res.partner', 'partner_delivery_billing_partner', 'partner_id', 'partner_delivery_billing_id', domain=[('is_delivery_billing', '=', True)], string='3rd Party Billing Addresses (Easypost)')
     

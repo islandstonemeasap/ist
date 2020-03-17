@@ -16,21 +16,32 @@ class EasypostRequest(EasypostRequest):
     # def _make_api_request(self, endpoint, request_type='get', data=None):
     #     return super(EasypostRequest, self)._make_api_request(endpoint, request_type=request_type, data=data)
 
-    def _is_receiver_payment_type(self, order):
-        return order and order.delivery_payment_type == 'receiver' and order.delivery_account_id
+    def _is_other_payment_type(self, order):
+        return order and order.delivery_payment_type in ('receiver', 'third_party') and order.delivery_account_id
+
+    def _find_payment_partner(self, order):
+        partner = False
+        if order.delivery_payment_type == 'receiver':
+            partner = order.partner_shipping_id
+        elif order.delivery_payment_type == 'third_party':
+            partner = order.partner_delivery_billing_id
+        return partner
     
     def _prepare_options_payment(self, shipment_id, order):
         payment = {}
         # order should contain all the info we need in order to put in the payment account
-        if self._is_receiver_payment_type(order) and order.partner_shipping_id.country_id.code and order.partner_shipping_id.zip:  # should use the address helper here
-            values = {
-                'type': order.delivery_payment_type.upper(),
-                'account': order.delivery_account_id.account_number,
-                'country': order.partner_shipping_id.country_id.code,
-                'postal_code': order.partner_shipping_id.zip
-            }
-            for key, value in values.items():
-                payment['order[shipments][%d][options][%s][%s]' % (shipment_id, 'payment', key)] = value
+        payment_option = self._is_other_payment_type(order)
+        if payment_option:
+            payment_partner = self._find_payment_partner(order)
+            if payment_partner:
+                values = {
+                    'type': order.delivery_payment_type.upper(),
+                    'account': order.delivery_account_id.account_number,
+                    'country': payment_partner.country_id and payment_partner.country_id.code or '',
+                    'postal_code': payment_partner.zip or ''
+                }
+                for key, value in values.items():
+                    payment['order[shipments][%d][options][%s][%s]' % (shipment_id, 'payment', key)] = value
         return payment
 
     def _prepare_picking_shipments(self, carrier, picking):
