@@ -7,11 +7,12 @@
       <field name="model">sale.order</field>
       <field name="inherit_id" ref="sale.view_order_form"/>
       <field name="arch" type="xml">
-
 	<xpath expr="//field[@name='payment_term_id']" position="after">
-	  <field name="delivery_account_ids" invisible="1"/>
-	  <field name="delivery_account_id" domain="[('id', 'in', delivery_account_ids)]"/>
 	  <field name="delivery_payment_type"/>
+	  <field name="partner_delivery_billing_ids" invisible="1"/>
+	  <field name="partner_delivery_billing_id" domain="[('id', 'in', partner_delivery_billing_ids)]" attrs="{'invisible': [('delivery_payment_type', '!=', 'third_party')], 'required': [('delivery_payment_type', '=', 'third_party')]}"/>
+	  <field name="delivery_account_ids" invisible="1"/>
+	  <field name="delivery_account_id" domain="[('id', 'in', delivery_account_ids)]" attrs="{'required': [('delivery_payment_type', 'in', ['third_party', 'receiver'])]}"/>
         </xpath>
       </field>
     </record>
