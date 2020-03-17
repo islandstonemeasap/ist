@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="invoice_to_xml">
+        <invoice xmlns:fm="http://www.filemaker.com/fmpxmlresult">
+            <invoice_id><t t-esc="invoice.origin"/></invoice_id>  
+            <invoice_date><t t-esc="invoice.date_invoice"/></invoice_date>
+            <invoice_type>Invoiced</invoice_type>
+            <order_date><t t-esc="order.date_order"/></order_date>
+            <terms><t t-esc="invoice.payment_term_id.name"/></terms>
+            <due_date><t t-esc="invoice.date_due" /></due_date>
+            <vendor_info>
+                <t t-set="company_id" t-value="invoice.company_id"/> 
+                <t t-set="company_partner" t-value="invoice.company_id.partner_id"/>
+                <vendor_name><t t-esc="company_id.name"/></vendor_name>
+                <vendor_number><t t-esc="company_partner.ref" /></vendor_number>
+                <address>
+                    <name><t t-esc="company_partner.name" /></name>
+                    <street><t t-esc="company_partner.street"/>, <t t-esc="company_partner.street2"/></street>
+                    <city><t t-esc="company_partner.city"/></city>
+                    <state><t t-esc="company_partner.state_id.code"/></state>
+                    <zip_code><t t-esc="company_partner.zip" /></zip_code>
+                    <phone><t t-esc="company_partner.phone" /></phone>
+                    <fax/>
+                    <email><t t-esc="company_partner.email"/></email>
+                </address>
+            </vendor_info>
+            <customer_info>
+                <t t-set="customer" t-value="invoice.partner_id"/> 
+                <t t-set="parent" t-value="invoice.partner_id.parent_id or invoice.partner_id"/>
+                <customer_id><t t-esc="customer.x_studio_filemaker_id" /></customer_id>
+                <customer_name><t t-esc="customer.name"/></customer_name>
+                <address>
+                    <name><t t-esc="parent.name"/></name>
+                    <street><t t-esc="parent.street"/>, <t t-esc="parent.street2"/></street>
+                    <city><t t-esc="parent.city"/></city>
+                    <state><t t-esc="parent.state_id.code"/></state>
+                    <zip_code><t t-esc="parent.zip" /></zip_code>
+                </address>
+                <customer_po><t t-esc="order.client_order_ref"/></customer_po>
+                <buyer/>
+                <sidemark><t t-esc="order.x_studio_sidemark"/></sidemark>
+            </customer_info>
+            <shipping_info>
+                <t t-set="shipping_info" t-value="invoice.partner_shipping_id"/> 
+                <shipper><t t-esc="order.carrier_id.name"/></shipper>
+                <shipping_method><t t-esc="order.carrier_id.name"/></shipping_method>
+                <ship_date></ship_date>
+                <shipping_payment><t t-esc="order.carrier_id.delivery_type"/></shipping_payment>
+                <shipping_cost><t t-esc="order.delivery_price"/></shipping_cost>
+                <tracking_number></tracking_number>
+                <address>
+                    <name><t t-esc="shipping_info.name"/></name>
+                    <street><t t-esc="shipping_info.street"/>, <t t-esc="customer.street2"/></street>
+                    <city><t t-esc="shipping_info.city"/></city>
+                    <state><t t-esc="shipping_info.state_id.code"/></state>
+                    <zip_code><t t-esc="shipping_info.zip" /></zip_code>
+                </address>
+            </shipping_info>
+            <sub_total><t t-esc="invoice.amount_total"/></sub_total>
+            <tax/>
+            <amount_due><t t-esc="invoice.residual"/></amount_due>
+            <lineitems>
+                <t t-foreach="invoice.invoice_line_ids" t-as="lineitem">
+                    <lineitem position="10">
+                        <product_code><t t-esc="lineitem.product_id.default_code"/></product_code>
+                        <description><t t-esc="lineitem.name"/></description>
+                        <quantity><t t-esc="lineitem.quantity"/></quantity>
+                        <unit_price><t t-esc="lineitem.price_unit"/></unit_price>
+                        <cost><t t-esc="lineitem.product_id.standard_price"/></cost>
+                    </lineitem>
+                </t>
+            </lineitems>
+        </invoice>
+    </template>
+</odoo>
