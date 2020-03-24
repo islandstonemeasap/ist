@@ -9,16 +9,17 @@ class PartnerDeliveryAccount(models.Model):
     _name = 'partner.delivery.account'
     _description = 'Customer Delivery Account'
 
-    carrier_id = fields.Many2one('delivery.carrier', ondelete='restrict', string='Carrier', required=True)
+    carrier = fields.Selection(selection=[('ups', 'UPS'), ('fedex', 'FedEx')], string='Carrier')
+    # carrier_id = fields.Many2one('delivery.carrier', ondelete='restrict', string='Carrier', required=True)
     account_number = fields.Char('Account Number', required=True)
 
-    name = fields.Char('Name', compute='_compute_name', store=True)
+    name = fields.Char('Name', compute=False, store=True)  # customer wants to manually input this name
 
-    @api.depends('carrier_id', 'account_number')
-    def _compute_name(self):
-        for pda in self:
-            if pda.carrier_id and pda.account_number:
-                pda.name = '{} - {}'.format(pda.carrier_id.name, pda.account_number)
+    # @api.depends('carrier_id', 'account_number')
+    # def _compute_name(self):
+    #     for pda in self:
+    #         if pda.carrier_id and pda.account_number:
+    #             pda.name = '{} - {}'.format(pda.carrier_id.name, pda.account_number)
 
     def write(self, vals):
         related_order_count = self.env['sale.order'].sudo().search_count([('delivery_account_id', 'in', self.ids), ('state', '=', 'sale')])
@@ -29,7 +30,7 @@ class PartnerDeliveryAccount(models.Model):
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    delivery_account_ids = fields.Many2many('partner.delivery.account', string='Delivery Account (Easypost)')
-    is_delivery_billing = fields.Boolean('Is 3rd Party Billing Address (Easypost)')
-    partner_delivery_billing_ids = fields.Many2many('res.partner', 'partner_delivery_billing_partner', 'partner_id', 'partner_delivery_billing_id', domain=[('is_delivery_billing', '=', True)], string='3rd Party Billing Addresses (Easypost)')
+    delivery_account_ids = fields.Many2many('partner.delivery.account', string='Delivery Account (Easypost)', copy=False)
+    is_delivery_billing = fields.Boolean('Is 3rd Party Billing Address (Easypost)', copy=False)
+    partner_delivery_billing_ids = fields.Many2many('res.partner', 'partner_delivery_billing_partner', 'partner_id', 'partner_delivery_billing_id', domain=[('is_delivery_billing', '=', True)], string='3rd Party Billing Addresses (Easypost)', copy=False)
     
