@@ -17,6 +17,7 @@ _ist" model="ir.ui.view">
 	      </group>
 	      <field name="delivery_account_ids" mode="tree" nolabel="1" attrs="{'required': [('is_delivery_billing', '=', True)]}">
 		<tree editable="bottom">
+		  <field name="name"/>
 		  <field name="carrier"/>
 		  <field name="account_number"/>
 		</tree>
