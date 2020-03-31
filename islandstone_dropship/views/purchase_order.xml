@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="product_order_form_view_inherit_islandstone_dropship" model="ir.ui.view">
+            <field name="name">product.order.form.inherit.island.stone</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='order_line']/tree[1]/field[@name='company_id']" position="after">
+                    <field name="transfer_status"/>
+                </xpath>
+                <xpath expr="//field[@name='transfer_status']" position="after">
+                    <field name="container_id"/>
+                    <field name="container_status"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
