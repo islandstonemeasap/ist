@@ -16,6 +16,8 @@ class PurchaseOrder(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
+    lot_id = fields.Many2one(string='Lot', comodel_name='stock.production.lot', ondelete='cascade')
+
     container_id = fields.Many2one(string='Container Number', comodel_name='dropship.container', ondelete='cascade')
     container_status = fields.Char(string='Container Status', related='container_id.status')
 
