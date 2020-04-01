@@ -11,3 +11,10 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     lot_id = fields.Many2one(string='Lot', comodel_name='stock.production.lot', ondelete='cascade')
+
+    @api.constrains('lot_id')
+    def _constrain_lot_id(self):
+        for s in self:
+            receipt = self.env['stock.move'].search([('sale_line_id', '=', s.id)])
+            if receipt and len(receipt.ids) > 0 and receipt[0]['lot_id'] != s.lot_id:
+                receipt[0]['lot_id'] = s.lot_id

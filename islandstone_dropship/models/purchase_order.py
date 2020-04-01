@@ -16,7 +16,7 @@ class PurchaseOrder(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
-    lot_id = fields.Many2one(string='Lot', comodel_name='stock.production.lot', ondelete='cascade')
+    lot_id = fields.Many2one(string='Lot', comodel_name='stock.production.lot', related='sale_line_id.lot_id')
 
     container_id = fields.Many2one(string='Container Number', comodel_name='dropship.container', ondelete='cascade')
     container_status = fields.Char(string='Container Status', related='container_id.status')
@@ -41,3 +41,10 @@ class PurchaseOrderLine(models.Model):
                 for m in p.move_lines:
                     if (s.sale_line_id.id == m.sale_line_id.id and m.container_id != s.container_id):
                         m['container_id'] = s.container_id
+
+    @api.multi
+    def _prepare_stock_moves(self, picking):
+        res = super(PurchaseOrderLine, self)._prepare_stock_moves(picking)
+        for re in res:
+            re['lot_id'] = self.sale_line_id.lot_id.id
+        return res

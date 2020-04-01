@@ -8,8 +8,6 @@
             <field name="arch" type="xml">
                 <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='order_line']/tree[1]/field[@name='company_id']" position="after">
                     <field name="transfer_status"/>
-                </xpath>
-                <xpath expr="//field[@name='transfer_status']" position="after">
                     <field name="container_id"/>
                     <field name="container_status"/>
                 </xpath>
@@ -17,3 +15,21 @@
         </record>
     </data>
 </odoo>
+
+                    <!-- <field name="currency_id" invisible="1"/>
+                    <field name="state" invisible="1"/>
+                    <field name="product_type" invisible="1"/>
+                    <field name="sequence" widget="handle"/>
+                    <field name="product_id" attrs="{'readonly': [('state', 'in', ('purchase', 'to approve','done', 'cancel'))]}" context="{'partner_id':parent.partner_id, 'quantity':product_qty,'uom':product_uom, 'company_id': parent.company_id}" force_save="1"/>
+                    <field name="name"/>
+                    <field name="date_planned"/>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                    <field name="account_analytic_id" context="{'default_partner_id':parent.partner_id}" groups="analytic.group_analytic_accounting"/>
+                    <field name="analytic_tag_ids" groups="analytic.group_analytic_tags" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="product_qty"/>
+                    <field name="qty_received" attrs="{'column_invisible': [('parent.state', 'not in', ('purchase', 'done'))]}"/>
+                    <field name="qty_invoiced" attrs="{'column_invisible': [('parent.state', 'not in', ('purchase', 'done'))]}"/>
+                    <field name="product_uom" groups="uom.group_uom" attrs="{'readonly': [('state', 'in', ('purchase', 'done', 'cancel'))]}" force_save="1"/>
+                    <field name="price_unit"/>
+                    <field name="taxes_id" widget="many2many_tags" domain="[('type_tax_use','=','purchase')]" context="{'default_type_tax_use': 'purchase', 'search_view_ref': 'account.account_tax_view_search'}" options="{'no_create': True}"/>
+                    <field name="price_subtotal" widget="monetary"/> -->
