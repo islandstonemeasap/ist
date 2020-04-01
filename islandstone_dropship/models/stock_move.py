@@ -12,13 +12,8 @@ class StockMove(models.Model):
     
     container_id = fields.Many2one(string='Container Number', comodel_name='dropship.container', ondelete='cascade')
     container_status = fields.Char(string='Container Status', related='container_id.status')
-    lot_id = fields.Many2one(string='Lot', comodel_name='stock.production.lot', ondelete='cascade')
-
-    @api.constrains('lot_id')
-    def _constrain_lot_id(self):
-        for s in self.filtered(lambda x: x.sale_line_id):
-            order = s.sale_line_id
-            order['lot_id'] = s.lot_id
+    
+    lot_id = fields.Many2one(string='Lot', comodel_name='stock.production.lot', related='sale_line_id.lot_id')
 
     @api.constrains('container_id')
     def _constrain_container_id(self):

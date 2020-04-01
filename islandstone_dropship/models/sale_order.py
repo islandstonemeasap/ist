@@ -11,9 +11,3 @@ class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
 
     lot_id = fields.Many2one(string='Lot', comodel_name='stock.production.lot', ondelete='cascade')
-    
-    @api.constrains('lot_id')
-    def _constrain_lot_id(self):
-        for s in self.filtered(lambda x: x.sale_line_id):
-            order = s.sale_line_id
-            order['lot_id'] = s.lot_id
