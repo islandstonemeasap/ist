@@ -17,7 +17,7 @@ class PurchaseOrder(models.Model):
     def _compute_generated_so_id(self):
         SaleOrder = self.env['sale.order']
         for s in self:
-            result = SaleOrder.search([('auto_purchase_order_id', '=', s.id)])
+            result = SaleOrder.search(['|', ('auto_purchase_order_id', '=', s.id), ('origin', '=', s.name)])
             if result and len(result.ids) > 0:
                 s['generated_so_id'] = result[0]
 
