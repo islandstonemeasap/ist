@@ -2,8 +2,7 @@
 <odoo>
     <data>
         <record id="schedule_action_update_wayfair_report_islandstone" model="ir.cron">
-<!--            <field name="name">Product Report: Send Wayfair Product Inventory Report to FTP and Email</field>-->
-            <field name="name">Product Report: Send Wayfair Product Inventory Report to Email</field>
+            <field name="name">Product Report: Send Wayfair Product Inventory Report to FTP and Email</field>
             <field name="model_id" ref="islandstone_stock_edi.model_product_report"/>
             <field name="state">code</field>
             <field name="code">model.send_wayfair_report()

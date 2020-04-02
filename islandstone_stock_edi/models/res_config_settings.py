@@ -19,7 +19,7 @@ class ResConfigSettings(models.TransientModel):
 
     ftp_host_wayfair = fields.Char(string='Host', default='',
                                    config_parameter='islandstone_stock_edi.ftp_host_wayfair')
-    ftp_port_wayfair = fields.Integer(string='Port', required=True, default=22,
+    ftp_port_wayfair = fields.Integer(string='Port', required=True, default=21,
                                       config_parameter='islandstone_stock_edi.ftp_port_wayfair')
     ftp_protocol_wayfair = fields.Selection(selection=[('ftp', 'FTP - File Transfer Protocol'),
                                                        ('sftp', 'SFTP - SSH File Transfer Protocol')],

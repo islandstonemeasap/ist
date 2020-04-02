@@ -7,6 +7,7 @@ import math
 from odoo import models, fields, api, _
 from datetime import datetime, timedelta
 from odoo.tools.float_utils import float_round
+from .ftp_connection import FTPConnection
 
 
 class ProductReport(models.Model):
@@ -27,6 +28,31 @@ class ProductReport(models.Model):
         ('company_unique', 'UNIQUE (company_id, customer)',
          'The Company already has a product report created with the same Customer.'),
     ]
+
+    @api.multi
+    def export_ftp_report(self):
+        host = self.env['ir.config_parameter'].sudo().get_param('islandstone_stock_edi.ftp_host_wayfair')
+        port = self.env['ir.config_parameter'].sudo().get_param('islandstone_stock_edi.ftp_port_wayfair')
+        # protocol = self.env['ir.config_parameter'].sudo().get_param('islandstone_stock_edi.ftp_protocol_wayfair')
+        login = self.env['ir.config_parameter'].sudo().get_param('islandstone_stock_edi.ftp_login_wayfair')
+        password = self.env['ir.config_parameter'].sudo().get_param('islandstone_stock_edi.ftp_password_wayfair')
+
+        config = {'host': host,
+                  'port': port,
+                  'login': login,
+                  'password': password,
+                  'repin': '/',
+                  }
+
+        conn = FTPConnection(config)
+
+        conn._connect()
+        conn.ls()
+        conn._disconnect()
+
+        print('reached here')
+
+        return True
 
     @api.multi
     def create_wayfair_prod_report(self):
@@ -100,7 +126,6 @@ class ProductReport(models.Model):
         workbook.close()
         with open(filename, "rb") as file:
             file_base64 = base64.b64encode(file.read())
-        # TODO: check if i need to delete old files, save room?
         attachment = self.env['ir.attachment'].create({
             'name': filename,
             'datas': file_base64,
