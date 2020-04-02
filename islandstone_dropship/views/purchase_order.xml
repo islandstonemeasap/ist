@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='company_id']" position="after">
                     <field name="generated_so_id"/>
+                    <field name="auto_sale_order_id"/>
                 </xpath>
                 <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='order_line']/tree[1]/field[@name='company_id']" position="after">
                     <field name="transfer_status"/>
