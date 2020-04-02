@@ -18,3 +18,15 @@ class SaleOrderLine(models.Model):
             receipt = self.env['stock.move'].search([('sale_line_id', '=', s.id)])
             if receipt and len(receipt.ids) > 0 and receipt[0]['lot_id'] != s.lot_id:
                 receipt[0]['lot_id'] = s.lot_id
+
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
+
+    generated_po_id = fields.Many2one(string='Generated PO', comodel_name='purchase.order', compute='_compute_generated_po_id')
+
+    def _compute_generated_po_id(self):
+        PurchaseOrder = self.env['purchase.order']
+        for s in self:
+            result = PurchaseOrder.search([('auto_sale_order_id', '=', s.id)])
+            if result and len(result.ids) > 0:
+                s['generated_po_id'] = result[0]

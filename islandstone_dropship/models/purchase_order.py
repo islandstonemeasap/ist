@@ -11,7 +11,15 @@ class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
     dest_address_id = fields.Many2one(string='Drop Ship Address', comodel_name='res.partner', states={}, ondelete='cascade')
+    generated_so_id = fields.Many2one(string='Generated SO', comodel_name='sale.order', compute='_compute_generated_so_id')
 
+    # @api.depends()
+    def _compute_generated_so_id(self):
+        SaleOrder = self.env['sale.order']
+        for s in self:
+            result = SaleOrder.search([('auto_purchase_order_id', '=', s.id)])
+            if result and len(result.ids) > 0:
+                s['generated_so_id'] = result[0]
 
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
@@ -32,7 +40,6 @@ class PurchaseOrderLine(models.Model):
                 for m in p.move_lines:
                     if (s.sale_line_id.id == m.sale_line_id.id):
                         s['picking_id'] = p
-
 
     @api.constrains('container_id')
     def _constrain_container_id(self):

@@ -6,21 +6,16 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='client_order_ref'][not(ancestor::field)]" position="after">
+                    <field name="generated_po_id"/>
+                </xpath>
+                <xpath expr="//page/field[@name='order_line']/form/group/group/field[@name='product_packaging']" position="before">
+                    <field name="lot_id" />
+                </xpath>
                 <xpath expr="//field[@name='order_line']/tree//field[@name='name']" position="after">
                     <field name="lot_id"/>
                 </xpath>
             </field>
-        </record>
-
-        <record id="view_order_form_inherit_islandstone_dropship" model="ir.ui.view">
-            <field name="name">sale.order.form.sale.stock</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//page/field[@name='order_line']/form/group/group/field[@name='product_packaging']" position="before">
-                    <field name="lot_id" />
-                </xpath>
-           </field>
         </record>
     </data>
 </odoo>
