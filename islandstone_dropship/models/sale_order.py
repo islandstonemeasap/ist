@@ -22,11 +22,14 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    # TODO: constrain the dest_address_id, so it updates the stock.picking list and source document
+
     generated_po_id = fields.Many2one(string='Generated PO', comodel_name='purchase.order', compute='_compute_generated_po_id')
 
+    @api.depends('name')
     def _compute_generated_po_id(self):
         PurchaseOrder = self.env['purchase.order']
         for s in self:
-            result = PurchaseOrder.search([('auto_sale_order_id', '=', s.id)])
+            result = PurchaseOrder.search(['|', ('auto_sale_order_id', '=', s.id), ('origin', '=', s.name)])
             if result and len(result.ids) > 0:
                 s['generated_po_id'] = result[0]

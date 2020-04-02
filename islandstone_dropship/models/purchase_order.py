@@ -10,19 +10,35 @@ from odoo import models, fields, api
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
+    # auto_sale_order_id = fields.Many2one(string='Source Sales Order', comodel_name='sale.order', readonly=False, copy=False)
+    auto_so_id = fields.Many2one(string='Source Sales Order', comodel_name='sale.order', compute='_compute_auto_so_id')
     dest_address_id = fields.Many2one(string='Drop Ship Address', comodel_name='res.partner', states={}, ondelete='cascade')
     generated_so_id = fields.Many2one(string='Generated SO', comodel_name='sale.order', compute='_compute_generated_so_id')
 
-    # @api.depends()
+    # TODO: constrain the dest_address_id, so it updates the stock.picking list and source document
+    # TODO: compute auto_sale_order_id if not set
+
+    @api.depends('origin', 'auto_sale_order_id')
+    def _compute_auto_so_id(self):
+        SaleOrder = self.env['sale.order']
+        for s in self:
+            source = SaleOrder.search([('name', '=', s.origin)])
+            if not s.auto_sale_order_id and source and len(source.ids) > 0:
+                s['auto_so_id'] = source[0]
+            elif s.auto_sale_order_id:
+                s['auto_so_id'] = s.auto_sale_order_id
+    
     def _compute_generated_so_id(self):
         SaleOrder = self.env['sale.order']
         for s in self:
-            result = SaleOrder.search(['|', ('auto_purchase_order_id', '=', s.id), ('origin', '=', s.name)])
-            if result and len(result.ids) > 0:
-                s['generated_so_id'] = result[0]
+            auto = SaleOrder.search([('auto_purchase_order_id', '=', s.id)])
+            if auto and len(auto.ids) > 0:
+                s['generated_so_id'] = auto[0]
 
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
+
+    # TODO: pass lot_id from stock.picking -> stock.move on origin sale order
 
     lot_id = fields.Many2one(string='Lot', comodel_name='stock.production.lot', related='sale_line_id.lot_id')
 
