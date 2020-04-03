@@ -10,13 +10,19 @@ from odoo import models, fields, api
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    # auto_sale_order_id = fields.Many2one(string='Source Sales Order', comodel_name='sale.order', readonly=False, copy=False)
     auto_so_id = fields.Many2one(string='Source Sales Order', comodel_name='sale.order', compute='_compute_auto_so_id')
     dest_address_id = fields.Many2one(string='Drop Ship Address', comodel_name='res.partner', states={}, ondelete='cascade')
     generated_so_id = fields.Many2one(string='Generated SO', comodel_name='sale.order', compute='_compute_generated_so_id')
 
     # TODO: constrain the dest_address_id, so it updates the stock.picking list and source document
-    # TODO: compute auto_sale_order_id if not set
+    @api.constrains('dest_address_id')
+    def _constrain_dest_address_id(self):
+        StockLocation = self.env['stock.location']
+        for s in self.filtered(lambda x: x.generated_so_id):
+            location = StockLocation.search([('partner_id', '=', s.dest_address_id)])
+            if location and len(location.ids) > 0:
+                for p in s.generated_so_id.picking_ids:
+                    p.location_dest_id = location
 
     @api.depends('origin', 'auto_sale_order_id')
     def _compute_auto_so_id(self):
