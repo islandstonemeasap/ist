@@ -18,7 +18,7 @@ class PurchaseOrder(models.Model):
     def _constrain_dest_address_id(self):
         StockLocation = self.env['stock.location']
         for s in self.filtered(lambda x: x.generated_so_id):
-            location = StockLocation.search([('partner_id', '=', s.dest_address_id)])
+            location = StockLocation.search([('partner_id', '=', s.dest_address_id.id)])
             if location and len(location.ids) > 0:
                 s.generated_so_id.partner_shipping_id = s.dest_address_id
                 for p in s.generated_so_id.picking_ids:

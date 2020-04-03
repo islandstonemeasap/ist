@@ -35,7 +35,7 @@ class SaleOrder(models.Model):
     def _constrain_partner_shipping_id(self):
         StockLocation = self.env['stock.location']
         for s in self.filtered(lambda x: x.auto_purchase_order_id):
-            location = StockLocation.search([('partner_id', '=', s.partner_shipping_id)])
+            location = StockLocation.search([('partner_id', '=', s.partner_shipping_id.id)])
             for p in s.auto_purchase_order_id.picking_ids:
                 if location and len(location.ids) > 0:
                     p.location_dest_id = location
