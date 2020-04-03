@@ -26,7 +26,7 @@ class StockMove(models.Model):
             if order.auto_purchase_order_id:
                 for p in order.auto_purchase_order_id.picking_ids:
                     for m in p.move_ids_without_package:
-                        if m.product_id == s.product_id: 
+                        if m.product_id == s.product_id and m.product_qty == s.product_qty and m.price_unit == s.price_unit and m.product_uom == s.product_uom: 
                             m.lot_id = s.lot_id
 
     @api.constrains('container_id')
@@ -35,3 +35,12 @@ class StockMove(models.Model):
             order = s.purchase_line_id
             if order.container_id != s.container_id:
                 order['container_id'] = s.container_id
+
+            order = s.sale_line_id.order_id
+            if order.auto_purchase_order_id:
+                for p in order.auto_purchase_order_id.picking_ids:
+                    for m in p.move_ids_without_package:
+                        if m.product_id == s.product_id and m.product_qty == s.product_qty and m.price_unit == s.price_unit and m.product_uom == s.product_uom: 
+                            m.container_id = s.container_id
+
+# 866-564-2262
