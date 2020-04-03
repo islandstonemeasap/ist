@@ -2,11 +2,6 @@
 
 from odoo import models, fields, api
 
-# 1. The status of the incoming products on North America company that have been shipped from the Factory (delivered quantity of the DropShip transfer in Main Company)
-# 1.1 The LOT # specified in the dropship transfer should be transferred to the receipt order 
-# 2  the container used to ship the Dropshipped products from the factory to the North America company and the status of that container
-# 3. The flexibility to change the destination Adress/ WH from the dropship and change the receipt related to the PO
-
 class StockMove(models.Model):
     _inherit = "stock.move"
     
@@ -42,5 +37,3 @@ class StockMove(models.Model):
                     for m in p.move_ids_without_package:
                         if m.product_id == s.product_id and m.product_qty == s.product_qty and m.price_unit == s.price_unit and m.product_uom == s.product_uom: 
                             m.container_id = s.container_id
-
-# 866-564-2262
