@@ -18,9 +18,16 @@ class StockMove(models.Model):
     @api.constrains('lot_id')
     def _constrain_lot_id(self):
         for s in self.filtered(lambda x: x.sale_line_id):
-            order = s.sale_line_id
-            if (order.lot_id.id != s.lot_id.id):
-                order['lot_id'] = s.lot_id 
+            line = s.sale_line_id
+            if (line.lot_id.id != s.lot_id.id):
+                line['lot_id'] = s.lot_id 
+
+            order = s.sale_line_id.order_id
+            if order.auto_purchase_order_id:
+                for p in order.auto_purchase_order_id.picking_ids:
+                    for m in p.move_ids_without_package:
+                        if m.product_id == s.product_id: 
+                            m.lot_id = s.lot_id
 
     @api.constrains('container_id')
     def _constrain_container_id(self):

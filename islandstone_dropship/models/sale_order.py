@@ -19,12 +19,31 @@ class SaleOrderLine(models.Model):
             if receipt and len(receipt.ids) > 0 and receipt[0]['lot_id'] != s.lot_id:
                 receipt[0]['lot_id'] = s.lot_id
 
+            order = s.order_id
+            if order.auto_purchase_order_id:
+                for p in order.auto_purchase_order_id.picking_ids:
+                    for m in p.move_ids_without_package:
+                        if m.product_id == s.product_id: 
+                            m.lot_id = s.lot_id
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     # TODO: constrain the dest_address_id, so it updates the stock.picking list and source document
 
     generated_po_id = fields.Many2one(string='Generated PO', comodel_name='purchase.order', compute='_compute_generated_po_id')
+
+    # @api.constrains('partner_shipping_id')
+    # def _constrain_partner_shipping_id(self):
+    #     StockLocation = self.env['stock.location']
+    #     for s in self.filtered(lambda x: x.auto_purchase_order_id):
+    #         location = StockLocation.search([('partner_id', '=', s.partner_shipping_id)])
+    #         print()
+    #         print(location)
+    #         print()
+    #         for p in s.auto_purchase_order_id.picking_ids:
+    #             if location and len(location.ids) > 0:
+    #                 p.location_dest_id = location
 
     @api.depends('name')
     def _compute_generated_po_id(self):
