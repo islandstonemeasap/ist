@@ -9,5 +9,12 @@ from odoo import models, fields, api
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    location_dest_id = fields.Many2one(string='Destination Location', comodel_name='stock.location', states={}, readonly=False, ondelete='cascade')
+    location_dest_id = fields.Many2one('res.partner',string='Destination Location',compute='_compute_location_dest_id',states={}, readonly=False, ondelete='cascade')
     
+    @api.depends('origin')
+    def _compute_location_dest_id(self):
+        StockPicking = self.env['sale.order']
+        for s in self:
+            result = StockPicking.search([('name', '=', s.origin)])
+            if result and len(result.ids) > 0:
+                s['location_dest_id'] = result[0].partner_shipping_id
