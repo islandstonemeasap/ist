@@ -36,6 +36,7 @@ class SaleOrder(models.Model):
         StockLocation = self.env['stock.location']
         for s in self.filtered(lambda x: x.auto_purchase_order_id):
             location = StockLocation.search([('partner_id', '=', s.partner_shipping_id.id)])
+            s.auto_purchase_order_id.dest_address_id = s.partner_shipping_id
             for p in s.auto_purchase_order_id.picking_ids:
                 if location and len(location.ids) > 0:
                     p.location_dest_id = location
