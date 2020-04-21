@@ -43,6 +43,9 @@ class PurchaseOrder(models.Model):
             if auto and len(auto.ids) > 0:
                 s['generated_so_id'] = auto[0]
 
+    def button_confirm(self):
+        return super(PurchaseOrder, self).sudo().button_confirm()
+
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
 
