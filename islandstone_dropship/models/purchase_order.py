@@ -14,14 +14,17 @@ class PurchaseOrder(models.Model):
         StockLocation = self.env['stock.location']
         for s in self.filtered(lambda x: x.generated_so_id):
             location = StockLocation.search([('partner_id', '=', s.dest_address_id.id)])
-            s.generated_so_id.partner_shipping_id = s.dest_address_id
+            if s.generated_so_id.partner_shipping_id.id != s.dest_address_id.id:
+                s.generated_so_id.partner_shipping_id = s.dest_address_id
             
             if location and len(location.ids) > 0:
                 for p in s.generated_so_id.picking_ids:
-                    p.location_dest_id = location
+                    if p.location_dest_id.id != location.id:
+                        p.location_dest_id = location
                 
                 for p in s.picking_ids:
-                    p.location_dest_id = location
+                    if p.location_dest_id.id != location.id:
+                        p.location_dest_id = location
 
     @api.depends('origin', 'auto_sale_order_id')
     def _compute_auto_so_id(self):
