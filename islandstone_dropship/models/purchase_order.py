@@ -18,9 +18,9 @@ class PurchaseOrder(models.Model):
                 s.generated_so_id.partner_shipping_id = s.dest_address_id
             
             if location and len(location.ids) > 0:
-                for p in s.generated_so_id.picking_ids:
-                    if p.location_dest_id.id != location.id:
-                        p.location_dest_id = location
+                # for p in s.generated_so_id.picking_ids:
+                #     if p.location_dest_id.id != location.id:
+                #         p.location_dest_id = location
                 
                 for p in s.picking_ids:
                     if p.location_dest_id.id != location.id:
