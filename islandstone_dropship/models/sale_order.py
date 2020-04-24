@@ -43,9 +43,9 @@ class SaleOrder(models.Model):
 
             s.auto_purchase_order_id.dest_address_id = s.partner_shipping_id
             if location and len(location.ids) > 0:
-                # for p in s.auto_purchase_order_id.picking_ids:
-                #     if p.location_dest_id.id != location.id:
-                #         p.location_dest_id = location
+                for p in s.auto_purchase_order_id.picking_ids:
+                    if p.location_dest_id.id != location.id:
+                        p.location_dest_id = location
                 
                 for p in s.picking_ids:
                     if p.location_dest_id.id == location.id:

@@ -21,9 +21,9 @@ class PurchaseOrder(models.Model):
 
             s.generated_so_id.partner_shipping_id = s.dest_address_id
             if location and len(location.ids) > 0:
-                # for p in s.generated_so_id.picking_ids:
-                #     if p.location_dest_id.id != location.id:
-                #         p.location_dest_id = location
+                for p in s.generated_so_id.picking_ids:
+                    if p.location_dest_id.id != location.id:
+                        p.location_dest_id = location
                 
                 for p in s.picking_ids:
                     if p.location_dest_id.id == location.id:
@@ -47,8 +47,12 @@ class PurchaseOrder(models.Model):
             if auto and len(auto.ids) > 0:
                 s['generated_so_id'] = auto[0]
 
+    @api.multi
     def button_confirm(self):
-        return super(PurchaseOrder, self).sudo().button_confirm()
+        Purchase = self.env['purchase.order'].sudo()
+        purchases = Purchase.browse(self.ids)
+        super(PurchaseOrder, purchases).button_confirm()
+        return True
 
 class PurchaseOrderLine(models.Model):
     _inherit = "purchase.order.line"
