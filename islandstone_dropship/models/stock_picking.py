@@ -11,3 +11,8 @@ class StockPicking(models.Model):
     
     location_dest_id = fields.Many2one(string='Destination Location', comodel_name='stock.location',states={}, readonly=False, ondelete='cascade')
     
+    @api.multi
+    def button_validate(self):
+        Picking = self.env['stock.picking'].sudo()
+        pickings = Picking.browse(self.ids)
+        return super(StockPicking, pickings).button_validate()
