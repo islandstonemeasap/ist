@@ -28,6 +28,7 @@
         'views/sale_order.xml',
         'views/stock_picking.xml',
         'views/purchase_order.xml',
+        'security/ir.model.access.csv',
     ],
 
 }
