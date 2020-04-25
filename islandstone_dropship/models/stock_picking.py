@@ -6,8 +6,8 @@ from odoo import models, fields, api
 # 2  the container used to ship the Dropshipped products from the factory to the North America company and the status of that container
 # 3. The flexibility to change the destination Adress/ WH from the dropship and change the receipt related to the PO
 
-# class StockPicking(models.Model):
-#     _inherit = "stock.picking"
+class StockPicking(models.Model):
+    _inherit = "stock.picking"
     
-#     location_dest_id = fields.Many2one(string='Destination Location', comodel_name='stock.location', states={'draft': [('readonly', False)]}, readonly=True, ondelete='cascade')
+    location_dest_id = fields.Many2one(string='Destination Location', comodel_name='stock.location', states={}, readonly=False, ondelete='cascade')
     
