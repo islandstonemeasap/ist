@@ -9,23 +9,17 @@ class PartnerDeliveryAccount(models.Model):
     _name = 'partner.delivery.account'
     _description = 'Customer Delivery Account'
 
+    name = fields.Char('Name', compute=False, store=True)  # customer wants to manually input this name
     carrier = fields.Selection(selection=[('ups', 'UPS'), ('fedex', 'FedEx')], string='Carrier')
     # carrier_id = fields.Many2one('delivery.carrier', ondelete='restrict', string='Carrier', required=True)
     account_number = fields.Char('Account Number', required=True)
-
-    name = fields.Char('Name', compute=False, store=True)  # customer wants to manually input this name
-
-    # @api.depends('carrier_id', 'account_number')
-    # def _compute_name(self):
-    #     for pda in self:
-    #         if pda.carrier_id and pda.account_number:
-    #             pda.name = '{} - {}'.format(pda.carrier_id.name, pda.account_number)
 
     def write(self, vals):
         related_order_count = self.env['sale.order'].sudo().search_count([('delivery_account_id', 'in', self.ids), ('state', '=', 'sale')])
         if related_order_count:
             raise ValidationError(_('You cannot modify delivery account that is linked to a confirmed sale order.'))
         return super(PartnerDeliveryAccount, self).write(vals)
+
     
 class ResPartner(models.Model):
     _inherit = 'res.partner'

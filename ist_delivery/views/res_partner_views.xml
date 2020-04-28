@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="0">
-      <record id="view_res_partner_form_inherit
-_ist" model="ir.ui.view">
+      <record id="view_res_partner_form_inherit_ist" model="ir.ui.view">
 	<field name="name">view.res.partner.form.inherit.ist</field>
 	<field name="model">res.partner</field>
 	<field name="inherit_id" ref="base.view_partner_form"/>
@@ -17,6 +16,7 @@ _ist" model="ir.ui.view">
 	      </group>
 	      <field name="delivery_account_ids" mode="tree" nolabel="1" attrs="{'required': [('is_delivery_billing', '=', True)]}">
 		<tree editable="bottom">
+		  <field name="name"/>
 		  <field name="carrier"/>
 		  <field name="account_number"/>
 		</tree>
