@@ -59,7 +59,7 @@ class EasypostRequest(EasypostRequest):
         if move_lines_with_package:
             # Generate an easypost shipment for each package in picking.
             for package in picking.package_ids:
-                payment = self._prepare_options_payment(shipment_id, picking.order)
+                payment = self._prepare_options_payment(shipment_id, picking.group_id and picking.group_id.sale_id or False)
                 shipment.update(payment)
                 shipment_id += 1
         return shipment
