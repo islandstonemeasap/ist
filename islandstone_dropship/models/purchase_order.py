@@ -15,7 +15,7 @@ class PurchaseOrder(models.Model):
         for s in self.filtered(lambda x: x.generated_so_id):
             location = StockLocation.search([('partner_id', '=', s.dest_address_id.id)])
             
-            print(s.generated_so_id.partner_shipping_id, s.dest_address_id)
+            # print(s.generated_so_id.partner_shipping_id, s.dest_address_id)
             if s.generated_so_id.partner_shipping_id.id == s.dest_address_id.id:
                 continue
 

@@ -33,10 +33,10 @@ class SaleOrder(models.Model):
 
     @api.constrains('partner_shipping_id')
     def _constrain_partner_shipping_id(self):
-        StockLocation = self.env['stock.location']
+        StockLocation = self.env['stock.location'].sudo()
         for s in self.filtered(lambda x: x.auto_purchase_order_id):
             location = StockLocation.search([('partner_id', '=', s.partner_shipping_id.id)])
-            print(s.partner_shipping_id, s.auto_purchase_order_id.dest_address_id)
+            # print(s.partner_shipping_id, s.auto_purchase_order_id.dest_address_id)
 
             if s.auto_purchase_order_id.dest_address_id.id == s.partner_shipping_id.id:
                 continue
@@ -54,7 +54,7 @@ class SaleOrder(models.Model):
 
     @api.depends('name')
     def _compute_generated_po_id(self):
-        PurchaseOrder = self.env['purchase.order']
+        PurchaseOrder = self.env['purchase.order'].sudo()
         for s in self:
             result = PurchaseOrder.search(['|', ('auto_sale_order_id', '=', s.id), ('origin', '=', s.name)])
             if result and len(result.ids) > 0:

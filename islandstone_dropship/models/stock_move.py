@@ -12,7 +12,9 @@ class StockMove(models.Model):
 
     @api.constrains('lot_id')
     def _constrain_lot_id(self):
-        for s in self.filtered(lambda x: x.sale_line_id):
+        StockMove = self.env['stock.move'].sudo()
+        stockmoves = StockMove.browse(self.ids)
+        for s in stockmoves.filtered(lambda x: x.sale_line_id):
             line = s.sale_line_id
             if (line.lot_id.id != s.lot_id.id):
                 line['lot_id'] = s.lot_id 
@@ -26,7 +28,9 @@ class StockMove(models.Model):
 
     @api.constrains('container_id')
     def _constrain_container_id(self):
-        for s in self.filtered(lambda x: x.purchase_line_id):
+        StockMove = self.env['stock.move'].sudo()
+        stockmoves = StockMove.browse(self.ids)
+        for s in stockmoves.filtered(lambda x: x.purchase_line_id):
             order = s.purchase_line_id
             if order.container_id != s.container_id:
                 order['container_id'] = s.container_id
