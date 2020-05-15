@@ -11,7 +11,7 @@ class PurchaseOrder(models.Model):
 
     @api.constrains('dest_address_id')
     def _constrain_dest_address_id(self):
-        StockLocation = self.env['stock.location']
+        StockLocation = self.env['stock.location'].sudo()
         for s in self.filtered(lambda x: x.generated_so_id):
             location = StockLocation.search([('partner_id', '=', s.dest_address_id.id)])
             
@@ -32,7 +32,7 @@ class PurchaseOrder(models.Model):
 
     @api.depends('origin', 'auto_sale_order_id')
     def _compute_auto_so_id(self):
-        SaleOrder = self.env['sale.order']
+        SaleOrder = self.env['sale.order'].sudo()
         for s in self:
             source = SaleOrder.search([('name', '=', s.origin)])
             if not s.auto_sale_order_id and source and len(source.ids) > 0:
@@ -41,7 +41,7 @@ class PurchaseOrder(models.Model):
                 s['auto_so_id'] = s.auto_sale_order_id
     
     def _compute_generated_so_id(self):
-        SaleOrder = self.env['sale.order']
+        SaleOrder = self.env['sale.order'].sudo()
         for s in self:
             auto = SaleOrder.search([('auto_purchase_order_id', '=', s.id)])
             if auto and len(auto.ids) > 0:
