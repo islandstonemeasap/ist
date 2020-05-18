@@ -14,8 +14,12 @@ class SaleOrderLine(models.Model):
 
     @api.constrains('lot_id')
     def _constrain_lot_id(self):
-        for s in self:
-            receipt = self.env['stock.move'].search([('sale_line_id', '=', s.id)])
+        StockMove = self.env['stock.move'].sudo()
+        SaleOrderLine = self.env['sale.order.line'].sudo()
+
+        lines = SaleOrderLine.browse(self.ids)
+        for s in lines:
+            receipt = StockMove.search([('sale_line_id', '=', s.id)])
             if receipt and len(receipt.ids) > 0 and receipt[0]['lot_id'] != s.lot_id:
                 receipt[0]['lot_id'] = s.lot_id
 
@@ -33,11 +37,12 @@ class SaleOrder(models.Model):
 
     @api.constrains('partner_shipping_id')
     def _constrain_partner_shipping_id(self):
+        SaleOrder = self.env['sale.order'].sudo()
         StockLocation = self.env['stock.location'].sudo()
-        for s in self.filtered(lambda x: x.auto_purchase_order_id):
-            location = StockLocation.search([('partner_id', '=', s.partner_shipping_id.id)])
-            # print(s.partner_shipping_id, s.auto_purchase_order_id.dest_address_id)
 
+        orders = SaleOrder.browse(self.ids)
+        for s in orders.filtered(lambda x: x.auto_purchase_order_id):
+            location = StockLocation.search([('partner_id', '=', s.partner_shipping_id.id)])
             if s.auto_purchase_order_id.dest_address_id.id == s.partner_shipping_id.id:
                 continue
 
@@ -54,8 +59,11 @@ class SaleOrder(models.Model):
 
     @api.depends('name')
     def _compute_generated_po_id(self):
+        SaleOrder = self.env['sale.order'].sudo()
         PurchaseOrder = self.env['purchase.order'].sudo()
-        for s in self:
+
+        orders = SaleOrder.browse(self.ids)
+        for s in orders:
             result = PurchaseOrder.search(['|', ('auto_sale_order_id', '=', s.id), ('origin', '=', s.name)])
             if result and len(result.ids) > 0:
                 s['generated_po_id'] = result[0]

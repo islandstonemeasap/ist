@@ -12,7 +12,10 @@ class PurchaseOrder(models.Model):
     @api.constrains('dest_address_id')
     def _constrain_dest_address_id(self):
         StockLocation = self.env['stock.location'].sudo()
-        for s in self.filtered(lambda x: x.generated_so_id):
+        PurchaseOrder = self.env['purchase.order'].sudo()
+        
+        purchases = PurchaseOrder.browse(self.ids)
+        for s in purchases.filtered(lambda x: x.generated_so_id):
             location = StockLocation.search([('partner_id', '=', s.dest_address_id.id)])
             
             # print(s.generated_so_id.partner_shipping_id, s.dest_address_id)
@@ -33,7 +36,10 @@ class PurchaseOrder(models.Model):
     @api.depends('origin', 'auto_sale_order_id')
     def _compute_auto_so_id(self):
         SaleOrder = self.env['sale.order'].sudo()
-        for s in self:
+        PurchaseOrder = self.env['purchase.order'].sudo()
+
+        purchases = PurchaseOrder.browse(self.ids)
+        for s in purchases:
             source = SaleOrder.search([('name', '=', s.origin)])
             if not s.auto_sale_order_id and source and len(source.ids) > 0:
                 s['auto_so_id'] = source[0]
@@ -42,7 +48,10 @@ class PurchaseOrder(models.Model):
     
     def _compute_generated_so_id(self):
         SaleOrder = self.env['sale.order'].sudo()
-        for s in self:
+        PurchaseOrder = self.env['purchase.order'].sudo()
+
+        purchases = PurchaseOrder.browse(self.ids)
+        for s in purchases:
             auto = SaleOrder.search([('auto_purchase_order_id', '=', s.id)])
             if auto and len(auto.ids) > 0:
                 s['generated_so_id'] = auto[0]
